@@ -3,6 +3,8 @@ import "./globals.css";
 import type { ReactNode } from "react";
 import Link from "next/link";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
+import styles from "./layout.module.css";
+import { MobileMenu } from "../components/MobileMenu";
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -17,77 +19,75 @@ const body = Manrope({
 });
 
 export const metadata = {
-  title: "Liora Atelier | Luxury Makeup Artistry",
+  title: "GLEEMAKEOVERS | Makeup Artistry",
   description:
-    "Editorial makeup for weddings, campaigns, and private appointments with a calm, refined touch.",
+    "Professional makeup, bridal hair styling, and semi-permanent brows.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${display.variable} ${body.variable} font-sans`}>
-        <div className="min-h-screen bg-stone-50">
-          <header className="border-b border-stone-200/60">
-            <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6 lg:px-12">
-              <Link href="/" className="font-serif text-2xl tracking-tight">
-                Liora Atelier
+      <body className={`${display.variable} ${body.variable} ${styles.body}`}>
+        <div className={styles.shell}>
+          <header className={styles.header}>
+            <div className={styles.container}>
+              <Link href="/" className={styles.brand}>
+                GLEEMAKEOVERS
               </Link>
-              <nav className="hidden items-center gap-8 text-sm uppercase tracking-[0.25em] text-stone-500 md:flex">
-                <Link href="/work" className="transition hover:text-stone-900">
+              <nav className={styles.nav}>
+                <Link href="/work" className={styles.navLink}>
                   Work
                 </Link>
-                <Link
-                  href="/services"
-                  className="transition hover:text-stone-900"
-                >
+                <Link href="/services" className={styles.navLink}>
                   Services
                 </Link>
-                <Link href="/faq" className="transition hover:text-stone-900">
-                  FAQ
+                <Link href="/about" className={styles.navLink}>
+                  About
                 </Link>
               </nav>
+              <MobileMenu />
               <Link
                 href="/book/service"
-                className="rounded-full border border-stone-900 px-5 py-2 text-sm uppercase tracking-[0.2em] text-stone-900 transition hover:bg-stone-900 hover:text-stone-50"
+                className={styles.cta}
               >
                 Book
               </Link>
             </div>
           </header>
           {children}
-          <footer className="border-t border-stone-200/70">
-            <div className="mx-auto grid w-full max-w-6xl gap-10 px-6 py-12 lg:grid-cols-3 lg:px-12">
+          <footer className={styles.footer}>
+            <div className={styles.footerGrid}>
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+                <p className={styles.footerLabel}>
                   Studio
                 </p>
-                <p className="mt-3 text-lg font-serif text-stone-900">
-                  Liora Atelier
+                <p className={styles.footerTitle}>
+                  GLEEMAKEOVERS
                 </p>
-                <p className="mt-2 text-sm text-stone-600">
+                <p className={styles.footerText}>
                   Based in New York. Available for destination weddings and
                   editorial travel worldwide.
                 </p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+                <p className={styles.footerLabel}>
                   Inquiries
                 </p>
-                <p className="mt-3 text-sm text-stone-700">
+                <p className={styles.footerText}>
                   hello@liora-atelier.com
                 </p>
-                <p className="mt-2 text-sm text-stone-700">
+                <p className={styles.footerText}>
                   +1 (212) 555-0183
                 </p>
               </div>
               <div>
-                <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+                <p className={styles.footerLabel}>
                   Studio Hours
                 </p>
-                <p className="mt-3 text-sm text-stone-700">
+                <p className={styles.footerText}>
                   Tuesday - Saturday
                 </p>
-                <p className="mt-2 text-sm text-stone-700">
+                <p className={styles.footerText}>
                   9:00 AM - 6:00 PM
                 </p>
               </div>

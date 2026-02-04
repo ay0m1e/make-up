@@ -1,0 +1,263 @@
+.page {
+  background: var(--color-cream);
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+}
+
+.heroMedia {
+  position: absolute;
+  inset: 0;
+}
+
+.heroImage {
+  object-fit: cover;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.45);
+}
+
+.heroInner {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-end;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 5rem 1rem 3rem;
+}
+
+.heroContent {
+  max-width: 32rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: #f5f5f4;
+}
+
+.heroEyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: #e7e5e4;
+}
+
+.heroTitle {
+  color: #fefdfb;
+}
+
+.heroSubtitle {
+  font-size: 1rem;
+  color: #e7e5e4;
+}
+
+@media (max-width: 767px) {
+  .heroContent {
+    gap: 1rem;
+  }
+
+  .heroSubtitle {
+    display: none;
+  }
+}
+
+.heroCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #f5f5f4;
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #fefdfb;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 100%;
+}
+
+
+.carouselSection {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 3.5rem 1rem;
+}
+
+.carouselLayout {
+  display: grid;
+  gap: 2.5rem;
+  align-items: center;
+}
+
+.carouselText {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.carouselEyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #78716c;
+}
+
+.carouselTextBody {
+  font-size: 1rem;
+  color: var(--color-ink-soft);
+}
+
+.carouselStage {
+  position: relative;
+  min-height: 420px;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+}
+
+.carouselCard {
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  overflow: hidden;
+  background: #e7e5e4;
+  cursor: grab;
+}
+
+.carouselCard:active {
+  cursor: grabbing;
+}
+
+.carouselImageWrap {
+  position: absolute;
+  inset: 0;
+}
+
+.carouselImage {
+  object-fit: cover;
+}
+
+.trustSection {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0 1rem 3.5rem;
+}
+
+.trustInner {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.trustEyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #78716c;
+}
+
+.trustText {
+  font-size: 1rem;
+  color: var(--color-ink-soft);
+}
+
+.ctaSection {
+  background: var(--color-warm);
+}
+
+.ctaInner {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 3.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  text-align: center;
+}
+
+.ctaEyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #78716c;
+}
+
+.ctaText {
+  font-size: 1rem;
+  color: var(--color-ink-soft);
+}
+
+.ctaButton {
+  border: 1px solid var(--color-border-strong);
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 100%;
+  text-align: center;
+}
+
+@media (hover: hover) {
+  .heroCta:hover {
+    background: #fefdfb;
+    color: #1c1917;
+  }
+
+  .ctaButton:hover {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+}
+
+@media (min-width: 768px) {
+  .heroInner {
+    padding: 6rem var(--space-page) 4rem;
+  }
+
+  .carouselLayout {
+    grid-template-columns: 0.45fr 0.55fr;
+  }
+
+  .heroCta,
+  .ctaButton {
+    width: fit-content;
+  }
+
+  .carouselStage {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .heroInner {
+    padding: 6rem 3rem 4rem;
+  }
+
+  .carouselSection {
+    padding: var(--space-section) 3rem;
+  }
+
+  .trustSection {
+    padding: 0 3rem var(--space-section);
+  }
+
+  .ctaInner {
+    padding: 4rem 3rem;
+  }
+}

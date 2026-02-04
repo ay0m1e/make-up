@@ -1,66 +1,116 @@
 // Frequently asked questions.
+"use client";
+
 import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
+import { placeholderImage } from "../../media";
+import styles from "./page.module.css";
 const faqs = [
   {
-    question: "How far in advance should I book?",
+    question: "How do I secure my booking?",
     answer:
-      "For weddings, booking 6-9 months in advance is recommended. Editorial and event appointments typically book 4-6 weeks ahead, depending on season.",
+      "Your appointment is only validated once payment has been made.",
   },
   {
-    question: "Do you offer touch-ups during events?",
+    question: "Is a deposit required for bridal bookings?",
     answer:
-      "Touch-up coverage can be added for weddings and long events. The studio will share options and timing once your date is confirmed.",
+      "A 50% deposit is required to validate a bridal package booking.",
   },
   {
-    question: "What products do you use?",
+    question: "What does the service fee include?",
     answer:
-      "The kit includes luxury and professional-grade products selected for camera-ready finishes and long wear, customized to your skin needs.",
+      "Rates listed cover one look per booking. Additional looks and touch-ups are charged separately.",
   },
   {
-    question: "Do you travel?",
+    question: "What if I need extra time after my appointment?",
     answer:
-      "Yes. Liora Atelier is based in New York and available for destination weddings and editorial travel worldwide.",
+      "Extra waiting time is charged at £20 per additional hour.",
   },
   {
-    question: "Can I schedule a trial?",
+    question: "Is travel included in the price?",
     answer:
-      "Bridal trials are available and recommended. They can be scheduled once your wedding date is confirmed.",
+      "Rates cover locations within 5 miles of LS10. Transportation and accommodation are required from the client for other locations.",
+  },
+  {
+    question: "Do you provide lashes?",
+    answer:
+      "Free quality mink lashes are provided. Clients may also supply their own.",
+  },
+  {
+    question: "Will my makeup be used on social media?",
+    answer:
+      "Most jobs are posted on social media, but you can opt out if you prefer.",
+  },
+  {
+    question: "Do bridal prices include touch-ups and travel?",
+    answer:
+      "Bridal package prices exclude touch-ups, transportation, and accommodation.",
   },
 ];
 
 export default function FaqPage() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-16 lg:px-12">
-      <div className="grid gap-8 lg:grid-cols-[0.6fr_0.4fr] lg:items-center">
-        <div className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+    <main className={styles.page}>
+      <div className={styles.hero}>
+        <motion.div
+          className={styles.heroContent}
+          {...(reduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 18 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, amount: 0.7 },
+                transition: { duration: 0.7, ease: "easeOut" },
+              })}
+        >
+          <p className={styles.eyebrow}>
             FAQ
           </p>
           <h1>Answers for a calm, confident booking.</h1>
-          <p className="text-lg text-stone-600">
+          <p className={styles.heroText}>
             The most common questions from brides, clients, and creative teams.
           </p>
-        </div>
-        <div className="relative aspect-[4/5] overflow-hidden rounded-3xl bg-stone-200">
+        </motion.div>
+        <motion.div
+          className={styles.heroImageWrap}
+          {...(reduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 20, scale: 1.06 },
+                whileInView: { opacity: 1, y: 0, scale: 1 },
+                viewport: { once: true, amount: 0.5 },
+                transition: { duration: 0.9, ease: "easeOut" },
+              })}
+        >
           <Image
-            src="/images/editorial-1.svg"
+            src={placeholderImage}
             alt="Soft portrait with neutral tones"
             fill
-            className="object-cover"
+            className={styles.heroImage}
             sizes="(min-width: 1024px) 30vw, 100vw"
           />
-        </div>
+        </motion.div>
       </div>
 
-      <section className="mt-12 space-y-6">
+      <section className={styles.list}>
         {faqs.map((faq) => (
-          <div
+          <motion.div
             key={faq.question}
-            className="rounded-3xl border border-stone-200 bg-white p-8"
+            className={styles.card}
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0, y: 18 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true, amount: 0.6 },
+                  transition: { duration: 0.6, ease: "easeOut" },
+                })}
           >
-            <h3 className="text-xl text-stone-900">{faq.question}</h3>
-            <p className="mt-3 text-sm text-stone-600">{faq.answer}</p>
-          </div>
+            <h3 className={styles.cardTitle}>{faq.question}</h3>
+            <p className={styles.cardText}>{faq.answer}</p>
+          </motion.div>
         ))}
       </section>
     </main>

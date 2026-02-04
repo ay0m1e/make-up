@@ -1,0 +1,100 @@
+.page {
+  width: 100%;
+  max-width: 56rem;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+}
+
+.card {
+  border-radius: 1.75rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.avatar {
+  margin: 0 auto 2rem;
+  height: 10rem;
+  width: 10rem;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #e7e5e4;
+}
+
+.avatarImage {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #78716c;
+}
+
+.title {
+  margin-top: 1rem;
+}
+
+.text {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--color-ink-soft);
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.primary,
+.secondary {
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.secondary {
+  border: 1px solid var(--color-border-strong);
+  color: var(--color-ink);
+}
+
+
+.primary {
+  background: var(--color-ink);
+  color: var(--color-cream);
+}
+
+@media (hover: hover) {
+  .secondary:hover {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .primary:hover {
+    background: #292524;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding: 5rem 3rem;
+  }
+
+  .primary,
+  .secondary {
+    width: fit-content;
+  }
+}

@@ -1,20 +1,56 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
   color-scheme: light;
+  --color-ink: #1c1917;
+  --color-ink-soft: #57534e;
+  --color-cream: #fafaf9;
+  --color-warm: #f5f2ee;
+  --color-white: #ffffff;
+  --color-border: #e7e5e4;
+  --color-border-strong: #292524;
+  --space-page: 1.5rem;
+  --space-section: 4rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: #fafaf9;
-  color: #1c1917;
+  margin: 0;
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+  padding-top: 72px;
+}
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
 
 h1,
 h2,
 h3 {
+  margin: 0;
   font-family: var(--font-display), ui-serif, Georgia, serif;
   letter-spacing: -0.02em;
 }
@@ -35,7 +71,8 @@ h3 {
 }
 
 p {
+  margin: 0;
   font-size: 1rem;
   line-height: 1.8;
-  color: #57534e;
+  color: var(--color-ink-soft);
 }

@@ -2,6 +2,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { TimeSlot } from "../../../components/TimeSlot";
+import { placeholderImage } from "../../../media";
+import styles from "./page.module.css";
 
 const timeOptions = [
   { label: "8:00 AM", note: "Early start" },
@@ -14,21 +16,21 @@ const timeOptions = [
 
 export default function BookTimePage() {
   return (
-    <main className="mx-auto w-full max-w-6xl px-6 py-16 lg:px-12">
-      <div className="space-y-4">
-        <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+    <main className={styles.page}>
+      <div className={styles.header}>
+        <p className={styles.eyebrow}>
           Step 3 of 4
         </p>
         <h1>Select a time window</h1>
-        <p className="text-lg text-stone-600">
+        <p className={styles.subtext}>
           These time windows help the studio confirm travel and prep time for
           your appointment.
         </p>
       </div>
 
-      <section className="mt-10 grid gap-10 lg:grid-cols-[0.65fr_0.35fr] lg:items-start">
-        <div className="space-y-8">
-          <div className="grid gap-4 sm:grid-cols-2">
+      <section className={styles.content}>
+        <div className={styles.form}>
+          <div className={styles.grid}>
             {timeOptions.map((option) => (
               <TimeSlot
                 key={option.label}
@@ -39,17 +41,17 @@ export default function BookTimePage() {
           </div>
           <Link
             href="/book/payment"
-            className="inline-flex items-center rounded-full bg-stone-900 px-6 py-3 text-xs uppercase tracking-[0.3em] text-stone-50 transition hover:bg-stone-800"
+            className={styles.cta}
           >
             Continue to details
           </Link>
         </div>
-        <div className="relative aspect-[3/4] overflow-hidden rounded-3xl bg-stone-200">
+        <div className={styles.imageWrap}>
           <Image
-            src="/images/booking-2.svg"
+            src={placeholderImage}
             alt="Soft makeup palette with neutral tones"
             fill
-            className="object-cover"
+            className={styles.image}
             sizes="(min-width: 1024px) 28vw, 100vw"
           />
         </div>

@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import styles from "./page.module.css";
 
 const serviceChoices = [
   { id: "bridal-atelier", name: "Bridal Atelier", price: "$650", duration: "120 minutes" },
@@ -18,16 +19,14 @@ export default function BookServicePage() {
   const selectedService = serviceChoices.find((service) => service.id === selectedId);
 
   return (
-    <main className="mx-auto w-full max-w-3xl px-6 py-16 lg:px-12">
-      <div className="space-y-2">
-        <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
-          Step 1 of 4
-        </p>
+    <main className={styles.page}>
+      <div className={styles.header}>
+        <p className={styles.eyebrow}>Step 1 of 4</p>
         <h1>Select your service</h1>
-        <p className="text-sm text-stone-600">Choose one to continue.</p>
+        <p className={styles.subtext}>Choose one to continue.</p>
       </div>
 
-      <section className="mt-12 grid gap-4">
+      <section className={styles.list}>
         {serviceChoices.map((service) => {
           const isSelected = service.id === selectedId;
           return (
@@ -35,20 +34,18 @@ export default function BookServicePage() {
               key={service.id}
               type="button"
               onClick={() => setSelectedId(service.id)}
-              className={`w-full rounded-[26px] px-7 py-7 text-left transition ${
-                isSelected
-                  ? "border border-stone-900 bg-stone-100"
-                  : "border border-stone-200 bg-white hover:border-stone-400"
+              className={`${styles.card} ${
+                isSelected ? styles.cardSelected : styles.cardDefault
               }`}
             >
-              <div className="flex flex-wrap items-center justify-between gap-6">
-                <div className="space-y-2">
-                  <h2 className="text-2xl text-stone-900">{service.name}</h2>
-                  <p className="text-xs uppercase tracking-[0.35em] text-stone-500">
+              <div className={styles.cardRow}>
+                <div className={styles.cardContent}>
+                  <h2 className={styles.cardTitle}>{service.name}</h2>
+                  <p className={styles.cardMeta}>
                     {service.duration}
                   </p>
                 </div>
-                <p className="text-xs uppercase tracking-[0.35em] text-stone-500">
+                <p className={styles.cardMeta}>
                   {service.price}
                 </p>
               </div>
@@ -58,14 +55,14 @@ export default function BookServicePage() {
       </section>
 
       {selectedService ? (
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-6">
-          <p className="text-sm text-stone-600">
-            Selected: <span className="text-stone-900">{selectedService.name}</span>
+        <div className={styles.footer}>
+          <p className={styles.footerText}>
+            Selected: <span className={styles.footerName}>{selectedService.name}</span>
           </p>
           <button
             type="button"
             onClick={() => router.push("/book/date")}
-            className="rounded-full border border-stone-900 px-6 py-3 text-xs uppercase tracking-[0.3em] text-stone-900 transition hover:bg-stone-900 hover:text-stone-50"
+            className={styles.continueButton}
           >
             Continue
           </button>

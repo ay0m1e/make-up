@@ -1,80 +1,137 @@
 // Biography page for the makeup artist.
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
+import { placeholderImage } from "../../media";
+import styles from "./page.module.css";
 
 export default function AboutPage() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-16 lg:px-12">
-      <section className="grid gap-12 lg:grid-cols-[0.5fr_0.5fr] lg:items-center">
-        <div className="relative aspect-[3/4] overflow-hidden rounded-[32px] bg-stone-200">
+    <main className={styles.page}>
+      <section className={styles.hero}>
+        <motion.div
+          className={styles.heroImageWrap}
+          {...(reduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 30, scale: 1.08 },
+                whileInView: { opacity: 1, y: 0, scale: 1 },
+                viewport: { once: true, amount: 0.5 },
+                transition: { duration: 1, ease: "easeOut" },
+              })}
+        >
           <Image
-            src="/images/hero-2.svg"
+            src={placeholderImage}
             alt="Portrait of the makeup artist"
             fill
-            className="object-cover"
+            className={styles.heroImage}
             sizes="(min-width: 1024px) 35vw, 100vw"
             priority
           />
-        </div>
-        <div className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+        </motion.div>
+        <motion.div
+          className={styles.heroContent}
+          {...(reduceMotion
+            ? {}
+            : {
+                initial: { opacity: 0, y: 22 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, amount: 0.6 },
+                transition: { duration: 0.8, ease: "easeOut", delay: 0.1 },
+              })}
+        >
+          <p className={styles.eyebrow}>
             About
           </p>
-          <h1>Elena Maris</h1>
-          <p className="text-base text-stone-600">
-            Bridal and editorial makeup artist based in New York, known for
-            luminous skin and quietly confident finishes.
+          <h1>Ife | GLEEMAKEOVERS</h1>
+          <p className={styles.heroText}>
+            Global makeup artist, beauty educator, and founder of
+            GLEEMAKEOVERS.
           </p>
-        </div>
+        </motion.div>
       </section>
 
-      <section className="mt-16 space-y-6">
+      <motion.section
+        className={styles.biography}
+        {...(reduceMotion
+          ? {}
+          : {
+              initial: { opacity: 0, y: 20 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, amount: 0.4 },
+              transition: { duration: 0.8, ease: "easeOut" },
+            })}
+      >
         <h2>Biography</h2>
-        <div className="space-y-4 text-stone-600">
+        <div className={styles.bioText}>
           <p>
-            Elena has spent more than a decade shaping beauty for weddings,
-            fashion editorials, and private events. Her work is known for
-            skin-first prep, soft structure, and an understated, modern finish.
+            Ife is a qualified and trained makeup artist with a long-standing
+            passion for beauty. Her approach is calm, professional, and centered
+            on enhancing natural features.
           </p>
           <p>
-            Each appointment is paced with care, allowing space for calm,
-            thoughtful detail. She listens closely, refines every texture, and
-            ensures each client feels both seen and beautifully at ease.
+            Her work is known for soft, natural, and classy finishes. She
+            provides makeup artistry, bridal hair styling, and semi-permanent
+            brow services for weddings, events, and photoshoots.
           </p>
           <p>
-            From intimate ceremonies to campaign-led studio sessions, Elena
-            brings professionalism, discretion, and a warm, confident presence.
+            Client care is central to every appointment, with a focus on
+            thoughtful preparation, clean finishes, and lasting wear.
           </p>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mt-16 space-y-4 rounded-[28px] bg-white px-8 py-10">
-        <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+      <motion.section
+        className={styles.credentials}
+        {...(reduceMotion
+          ? {}
+          : {
+              initial: { opacity: 0, y: 20 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, amount: 0.5 },
+              transition: { duration: 0.8, ease: "easeOut" },
+            })}
+      >
+        <p className={styles.eyebrow}>
           Credentials
         </p>
-        <div className="grid gap-4 text-sm text-stone-600 sm:grid-cols-2">
-          <p>12+ years in luxury beauty and editorial work</p>
-          <p>Bridal, fashion, and private event clientele</p>
-          <p>Specialty in luminous skin and soft structure</p>
-          <p>Available for destination weddings worldwide</p>
+        <div className={styles.credentialsGrid}>
+          <p>Qualified and trained makeup artist</p>
+          <p>Professional training and masterclasses</p>
+          <p>Soft, natural, and classy finishes</p>
+          <p>Makeup, bridal hair styling, and brows</p>
         </div>
-      </section>
+      </motion.section>
 
-      <section className="mt-16 flex flex-col items-center gap-6 rounded-[28px] bg-stone-100 px-8 py-12 text-center">
-        <p className="text-xs uppercase tracking-[0.3em] text-stone-500">
+      <motion.section
+        className={styles.cta}
+        {...(reduceMotion
+          ? {}
+          : {
+              initial: { opacity: 0, y: 24 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, amount: 0.6 },
+              transition: { duration: 0.8, ease: "easeOut" },
+            })}
+      >
+        <p className={styles.eyebrow}>
           Begin the experience
         </p>
-        <h2>Book a private appointment with Elena.</h2>
-        <p className="text-base text-stone-600">
+        <h2>Book a private appointment with GLEEMAKEOVERS.</h2>
+        <p className={styles.ctaText}>
           Share your date and details for a personalized makeup experience.
         </p>
         <Link
           href="/book/service"
-          className="rounded-full border border-stone-900 px-6 py-3 text-xs uppercase tracking-[0.3em] text-stone-900 transition hover:bg-stone-900 hover:text-stone-50"
+          className={styles.ctaButton}
         >
           Book an Appointment
         </Link>
-      </section>
+      </motion.section>
     </main>
   );
 }

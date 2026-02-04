@@ -1,0 +1,34 @@
+.grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.button {
+  border-radius: 1.25rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  padding: 1rem;
+  text-align: left;
+  font-size: 0.875rem;
+  color: #44403c;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+@media (hover: hover) {
+  .button:hover {
+    border-color: #a8a29e;
+  }
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

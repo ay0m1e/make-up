@@ -1,74 +1,175 @@
 // Services listing with editorial cards.
+"use client";
+
 import Link from "next/link";
+import { motion, useReducedMotion } from "framer-motion";
+import styles from "./page.module.css";
 
 const services = [
   {
-    name: "Bridal Atelier",
-    description:
-      "A refined bridal session with skin preparation, soft sculpting, and veil-ready longevity.",
-    price: "$650",
-    duration: "120 minutes",
+    name: "Standard Makeup (Studio)",
+    description: "Studio-based makeup appointment.",
+    price: "£70",
+    duration: "One look",
   },
   {
-    name: "Wedding Party",
-    description:
-      "Coordinated makeup for the wedding party with a cohesive, polished finish.",
-    price: "$180",
-    duration: "60 minutes",
+    name: "Standard Makeup (Home Service)",
+    description: "Makeup appointment at your location.",
+    price: "£90",
+    duration: "One look",
   },
   {
-    name: "Editorial Session",
-    description:
-      "On-set artistry for campaigns, studio sessions, and press appearances.",
-    price: "$900",
-    duration: "180 minutes",
+    name: "Photoshoot Makeup",
+    description: "Single look for studio or location shoots.",
+    price: "£100",
+    duration: "One look",
   },
   {
-    name: "Event Glam",
-    description:
-      "Camera-ready makeup for gala evenings, premieres, and private celebrations.",
-    price: "$320",
-    duration: "75 minutes",
+    name: "Makeup + Wig Styling (Studio)",
+    description: "Makeup with wig styling in studio.",
+    price: "£120",
+    duration: "One look",
   },
   {
-    name: "Private Lesson",
-    description:
-      "A personalized lesson focused on technique, product curation, and routine.",
-    price: "$420",
-    duration: "90 minutes",
+    name: "Makeup + Wig Styling (Home Service)",
+    description: "Makeup with wig styling at your location.",
+    price: "£150",
+    duration: "One look",
+  },
+  {
+    name: "Gele (One Style)",
+    description: "Traditional gele styling.",
+    price: "£40",
+    duration: "One style",
+  },
+  {
+    name: "Prewedding Shoot",
+    description: "Makeup for prewedding photoshoot.",
+    price: "£100",
+    duration: "One look",
+  },
+  {
+    name: "Bridal Trial Session (Studio)",
+    description: "Bridal trial appointment in studio.",
+    price: "£100",
+    duration: "One look",
+  },
+  {
+    name: "Bridesmaids",
+    description: "Makeup for bridesmaids.",
+    price: "£90",
+    duration: "Per person",
+  },
+  {
+    name: "Registry Wedding",
+    description: "Makeup for registry ceremony.",
+    price: "£250",
+    duration: "Package",
+  },
+  {
+    name: "Traditional Wedding",
+    description: "Makeup for traditional ceremony.",
+    price: "£300",
+    duration: "Package",
+  },
+  {
+    name: "White Wedding",
+    description: "Makeup for white wedding ceremony.",
+    price: "£300",
+    duration: "Package",
+  },
+  {
+    name: "Traditional + White (Same Day)",
+    description: "Makeup for both ceremonies on the same day.",
+    price: "£500",
+    duration: "Package",
+  },
+  {
+    name: "Bridal Hair Prep & Styling",
+    description: "Hair preparation and bridal styling.",
+    price: "£180",
+    duration: "Package",
+  },
+  {
+    name: "Bridal Frontal Installation & Styling",
+    description: "Frontal installation with bridal styling.",
+    price: "£300",
+    duration: "Package",
+  },
+  {
+    name: "Bridal Makeup + Hair Styling (Traditional)",
+    description: "Traditional bridal makeup with hair styling.",
+    price: "£550",
+    duration: "Package",
+  },
+  {
+    name: "Bridal Makeup + Hair Installation & Styling",
+    description: "Bridal makeup with hair installation and styling.",
+    price: "£540",
+    duration: "Package",
+  },
+  {
+    name: "Bride’s Gele (One Style)",
+    description: "Gele styling for the bride.",
+    price: "£60",
+    duration: "One style",
   },
 ];
 
 export default function ServicesPage() {
-  return (
-    <main className="mx-auto w-full max-w-5xl px-6 py-16 lg:px-12">
-      <section className="space-y-3">
-        <h1>Services</h1>
-        <p className="text-base text-stone-600">
-          A calm, curated menu of luxury makeup appointments for bridal,
-          editorial, and private clients.
-        </p>
-      </section>
+  const reduceMotion = useReducedMotion();
 
-      <section className="mt-16 space-y-16">
+  return (
+    <main className={styles.page}>
+      <motion.section
+        className={styles.intro}
+        {...(reduceMotion
+          ? {}
+          : {
+              initial: { opacity: 0, y: 20 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, amount: 0.6 },
+              transition: { duration: 0.8, ease: "easeOut" },
+            })}
+      >
+        <h1>Services</h1>
+        <p className={styles.introText}>
+          Makeup, hair styling, and bridal packages with clear, published
+          rates.
+        </p>
+      </motion.section>
+
+      <section className={styles.list}>
         {services.map((service) => (
-          <article key={service.name} className="space-y-6">
-            <div className="space-y-2">
-              <h2 className="text-3xl text-stone-900">{service.name}</h2>
-              <p className="text-base text-stone-600">{service.description}</p>
+          <motion.article
+            key={service.name}
+            className={styles.card}
+            {...(reduceMotion
+              ? {}
+              : {
+                  initial: { opacity: 0, y: 24 },
+                  whileInView: { opacity: 1, y: 0 },
+                  viewport: { once: true, amount: 0.4 },
+                  transition: { duration: 0.7, ease: "easeOut" },
+                })}
+            whileHover={reduceMotion ? undefined : { y: -6 }}
+          >
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>{service.name}</h2>
+              <p className={styles.cardText}>{service.description}</p>
             </div>
-            <div className="flex flex-wrap items-center gap-6 text-xs uppercase tracking-[0.35em] text-stone-500">
+            <div className={styles.cardMeta}>
               <span>{service.price}</span>
               <span>{service.duration}</span>
             </div>
             <Link
               href="/book/service"
-              className="inline-flex rounded-full border border-stone-900 px-6 py-3 text-xs uppercase tracking-[0.3em] text-stone-900 transition hover:bg-stone-900 hover:text-stone-50"
+              className={styles.cardLink}
             >
               Book this service
             </Link>
-            <div className="h-px w-full bg-stone-200/40" />
-          </article>
+            <div className={styles.cardDivider} />
+          </motion.article>
         ))}
       </section>
     </main>

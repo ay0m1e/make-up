@@ -1,0 +1,129 @@
+.page {
+  width: 100%;
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 3.5rem 1rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: #78716c;
+}
+
+.subtext {
+  font-size: 0.875rem;
+  color: var(--color-ink-soft);
+}
+
+.list {
+  margin-top: 3rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.card {
+  width: 100%;
+  border-radius: 26px;
+  padding: 1.75rem;
+  text-align: left;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.cardDefault {
+}
+
+@media (hover: hover) {
+  .cardDefault:hover {
+    border-color: #a8a29e;
+  }
+}
+
+.cardSelected {
+  border-color: var(--color-border-strong);
+  background: #f5f5f4;
+}
+
+.cardRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  color: var(--color-ink);
+}
+
+.cardMeta {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: #78716c;
+}
+
+.footer {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.footerText {
+  font-size: 0.875rem;
+  color: var(--color-ink-soft);
+}
+
+.footerName {
+  color: var(--color-ink);
+}
+
+.continueButton {
+  border: 1px solid var(--color-border-strong);
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: var(--color-ink);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  width: 100%;
+}
+
+@media (hover: hover) {
+  .continueButton:hover {
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding: var(--space-section) 3rem;
+  }
+
+  .continueButton {
+    width: fit-content;
+  }
+}
