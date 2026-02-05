@@ -8,6 +8,7 @@
 .hero {
   display: grid;
   gap: 3rem;
+  padding-top: clamp(6rem, 14vw, 9rem);
 }
 
 .heroImageWrap {
@@ -123,6 +124,7 @@
   .hero {
     grid-template-columns: 0.5fr 0.5fr;
     align-items: center;
+    padding-top: clamp(10rem, 16vw, 14rem);
   }
 
   .ctaButton {

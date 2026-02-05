@@ -35,6 +35,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 GLEEMAKEOVERS
               </Link>
               <nav className={styles.nav}>
+                <Link href="/" className={styles.navLink}>
+                  Home
+                </Link>
                 <Link href="/work" className={styles.navLink}>
                   Work
                 </Link>
