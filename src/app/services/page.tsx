@@ -1,116 +1,136 @@
-// Services listing with editorial cards.
+// Services listing with editorial sections.
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import { placeholderImage } from "../../media";
 import styles from "./page.module.css";
 
 const services = [
   {
     name: "Standard Makeup (Studio)",
-    description: "Studio-based makeup appointment.",
+    descriptor: "Polished, timeless makeup for studio appointments.",
+    bullets: ["Studio appointment", "Ideal for events or shoots", "Soft, long-wear finish"],
     price: "£70",
     duration: "One look",
   },
   {
     name: "Standard Makeup (Home Service)",
-    description: "Makeup appointment at your location.",
+    descriptor: "Comfortable, on-location makeup tailored to your day.",
+    bullets: ["On-location service", "Ideal for busy mornings", "Camera-ready finish"],
     price: "£90",
     duration: "One look",
   },
   {
     name: "Photoshoot Makeup",
-    description: "Single look for studio or location shoots.",
+    descriptor: "Refined makeup designed for camera and lighting.",
+    bullets: ["Studio or location", "Optimised for photography", "Balanced, polished skin"],
     price: "£100",
     duration: "One look",
   },
   {
     name: "Makeup + Wig Styling (Studio)",
-    description: "Makeup with wig styling in studio.",
+    descriptor: "Coordinated makeup and wig styling in studio.",
+    bullets: ["Studio session", "Makeup + wig styling", "Soft glam alignment"],
     price: "£120",
     duration: "One look",
   },
   {
     name: "Makeup + Wig Styling (Home Service)",
-    description: "Makeup with wig styling at your location.",
+    descriptor: "Full look styling delivered to your location.",
+    bullets: ["On-location service", "Makeup + wig styling", "Event-ready finish"],
     price: "£150",
     duration: "One look",
   },
   {
     name: "Gele (One Style)",
-    description: "Traditional gele styling.",
+    descriptor: "Elegant gele styling with a refined finish.",
+    bullets: ["One traditional style", "Structured, clean lines", "Event-ready polish"],
     price: "£40",
     duration: "One style",
   },
   {
     name: "Prewedding Shoot",
-    description: "Makeup for prewedding photoshoot.",
+    descriptor: "Soft, luminous makeup for prewedding portraits.",
+    bullets: ["Photo-ready finish", "Defined yet natural", "Studio or location"],
     price: "£100",
     duration: "One look",
   },
   {
     name: "Bridal Trial Session (Studio)",
-    description: "Bridal trial appointment in studio.",
+    descriptor: "A focused bridal trial to perfect your look.",
+    bullets: ["Studio appointment", "Shape and tone refining", "Confidence before the day"],
     price: "£100",
     duration: "One look",
   },
   {
     name: "Bridesmaids",
-    description: "Makeup for bridesmaids.",
+    descriptor: "Cohesive bridesmaid makeup with a soft glow.",
+    bullets: ["Per person", "Coordinated tones", "Event-ready longevity"],
     price: "£90",
     duration: "Per person",
   },
   {
     name: "Registry Wedding",
-    description: "Makeup for registry ceremony.",
+    descriptor: "Elegant makeup for a refined registry ceremony.",
+    bullets: ["Registry ceremony", "Polished bridal finish", "Comfortable wear"],
     price: "£250",
     duration: "Package",
   },
   {
     name: "Traditional Wedding",
-    description: "Makeup for traditional ceremony.",
+    descriptor: "Traditional bridal makeup with graceful detail.",
+    bullets: ["Traditional ceremony", "Defined yet soft", "Long-lasting wear"],
     price: "£300",
     duration: "Package",
   },
   {
     name: "White Wedding",
-    description: "Makeup for white wedding ceremony.",
+    descriptor: "Classic bridal makeup with a soft, luminous finish.",
+    bullets: ["White wedding", "Refined bridal glow", "Camera-ready complexion"],
     price: "£300",
     duration: "Package",
   },
   {
     name: "Traditional + White (Same Day)",
-    description: "Makeup for both ceremonies on the same day.",
+    descriptor: "Two bridal looks for a full wedding day.",
+    bullets: ["Same-day coverage", "Look refresh included", "End-to-end support"],
     price: "£500",
     duration: "Package",
   },
   {
     name: "Bridal Hair Prep & Styling",
-    description: "Hair preparation and bridal styling.",
+    descriptor: "Bridal hair preparation with refined styling.",
+    bullets: ["Hair prep + styling", "Bridal-ready finish", "Structured elegance"],
     price: "£180",
     duration: "Package",
   },
   {
     name: "Bridal Frontal Installation & Styling",
-    description: "Frontal installation with bridal styling.",
+    descriptor: "Frontal installation tailored for bridal styling.",
+    bullets: ["Frontal install", "Secure, seamless finish", "Bridal styling included"],
     price: "£300",
     duration: "Package",
   },
   {
     name: "Bridal Makeup + Hair Styling (Traditional)",
-    description: "Traditional bridal makeup with hair styling.",
+    descriptor: "Traditional bridal makeup paired with hair styling.",
+    bullets: ["Makeup + hair", "Cultural elegance", "Full bridal support"],
     price: "£550",
     duration: "Package",
   },
   {
     name: "Bridal Makeup + Hair Installation & Styling",
-    description: "Bridal makeup with hair installation and styling.",
+    descriptor: "Full bridal glam with hair installation and styling.",
+    bullets: ["Makeup + install", "Refined bridal finish", "All-day wear"],
     price: "£540",
     duration: "Package",
   },
   {
     name: "Bride’s Gele (One Style)",
-    description: "Gele styling for the bride.",
+    descriptor: "Bridal gele styling with a tailored silhouette.",
+    bullets: ["One bridal style", "Structured and elegant", "Ceremony-ready"],
     price: "£60",
     duration: "One style",
   },
@@ -202,37 +222,57 @@ export default function ServicesPage() {
       </motion.section>
 
       <section className={styles.list}>
-        {services.map((service) => (
-          <motion.article
-            key={service.name}
-            className={styles.card}
-            {...(reduceMotion
-              ? {}
-              : {
-                  initial: { opacity: 0, y: 24 },
-                  whileInView: { opacity: 1, y: 0 },
-                  viewport: { once: true, amount: 0.4 },
-                  transition: { duration: 0.7, ease: "easeOut" },
-                })}
-            whileHover={reduceMotion ? undefined : { y: -6 }}
-          >
-            <div className={styles.cardHeader}>
-              <h2 className={styles.cardTitle}>{service.name}</h2>
-              <p className={styles.cardText}>{service.description}</p>
-            </div>
-            <div className={styles.cardMeta}>
-              <span className={styles.cardPrice}>{service.price}</span>
-              <span className={styles.cardDuration}>{service.duration}</span>
-            </div>
-            <Link
-              href="/book/service"
-              className={styles.cardLink}
+        {services.map((service, index) => {
+          const isReversed = index % 2 !== 0;
+          return (
+            <motion.article
+              key={service.name}
+              className={`${styles.serviceSection} ${
+                isReversed ? styles.serviceSectionAlt : ""
+              }`}
+              {...(reduceMotion
+                ? {}
+                : {
+                    initial: { opacity: 0, y: 24 },
+                    whileInView: { opacity: 1, y: 0 },
+                    viewport: { once: true, amount: 0.35 },
+                    transition: { duration: 0.7, ease: "easeOut" },
+                  })}
             >
-              Book this service
-            </Link>
-            <div className={styles.cardDivider} />
-          </motion.article>
-        ))}
+              <div
+                className={`${styles.serviceContent} ${
+                  isReversed ? styles.serviceContentReverse : ""
+                }`}
+              >
+                <div className={styles.serviceText}>
+                  <h2 className={styles.cardTitle}>{service.name}</h2>
+                  <p className={styles.serviceDescriptor}>{service.descriptor}</p>
+                  <ul className={styles.serviceBullets}>
+                    {service.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                  <div className={styles.cardMeta}>
+                    <span className={styles.cardPrice}>{service.price}</span>
+                    <span className={styles.cardDuration}>{service.duration}</span>
+                  </div>
+                  <Link href="/book/service" className={styles.cardLink}>
+                    Book this service
+                  </Link>
+                </div>
+                <div className={styles.serviceImageWrap}>
+                  <Image
+                    src={placeholderImage}
+                    alt={`${service.name} preview`}
+                    fill
+                    className={styles.serviceImage}
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                  />
+                </div>
+              </div>
+            </motion.article>
+          );
+        })}
       </section>
 
       <section className={styles.reviewsSection}>

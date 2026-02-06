@@ -36,7 +36,7 @@ export function ServiceCard({ service, imageAlt, category }: Props) {
         </div>
         <div className={styles.meta}>
           <span>{service.duration_minutes} minutes</span>
-          <span>From ${service.price}</span>
+          <span>From £{service.price}</span>
         </div>
       </div>
     </article>

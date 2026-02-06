@@ -5,30 +5,6 @@
   padding: 3.5rem 1rem;
 }
 
-.hero {
-  display: grid;
-  gap: 3rem;
-  padding-top: clamp(6rem, 14vw, 9rem);
-}
-
-.heroImageWrap {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  overflow: hidden;
-  border-radius: 2rem;
-  background: #e7e5e4;
-}
-
-.heroImage {
-  object-fit: cover;
-}
-
-.heroContent {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
 .eyebrow {
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -36,84 +12,142 @@
   color: #78716c;
 }
 
-.heroText {
-  font-size: 1rem;
-  color: var(--color-ink-soft);
-}
-
-.biography {
-  margin-top: 4rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.bioText {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  color: var(--color-ink-soft);
-}
-
-.credentials {
-  margin-top: 4rem;
-  border-radius: 1.75rem;
-  background: var(--color-white);
-  padding: 2.5rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.credentialsGrid {
+.topGrid {
   display: grid;
-  gap: 1rem;
-  font-size: 0.875rem;
-  color: var(--color-ink-soft);
+  gap: 2rem;
 }
 
-.cta {
-  margin-top: 4rem;
-  border-radius: 1.75rem;
-  background: var(--color-warm);
-  padding: 3rem 2rem;
+.missionCard {
+  border-radius: 2rem;
+  background: #ffffff;
+  padding: clamp(2rem, 5vw, 3rem);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
-  text-align: center;
+  gap: 1.25rem;
+  box-shadow: 0 20px 50px rgba(15, 10, 5, 0.06);
 }
 
-.ctaText {
+.missionText {
   font-size: 1rem;
   color: var(--color-ink-soft);
 }
 
-.ctaButton {
-  border: 1px solid var(--color-border-strong);
-  padding: 0.75rem 1.5rem;
+.portfolioCard {
+  position: relative;
+  min-height: 20rem;
+  border-radius: 2rem;
+  overflow: hidden;
+  background: #e7e5e4;
+  display: flex;
+  align-items: flex-end;
+}
+
+.portfolioImage {
+  object-fit: cover;
+}
+
+.portfolioOverlay {
+  position: relative;
+  z-index: 1;
+  margin: 1.5rem;
+  padding: 1.5rem;
+  border-radius: 1.5rem;
+  background: rgba(28, 25, 23, 0.65);
+  color: #fefaf5;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 16rem;
+}
+
+.portfolioButton {
+  border: 1px solid #fefaf5;
+  padding: 0.65rem 1.4rem;
   border-radius: 999px;
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.3em;
-  color: var(--color-ink);
+  color: #fefaf5;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  width: 100%;
   text-align: center;
 }
 
-@media (hover: hover) {
-  .ctaButton:hover {
-    background: var(--color-ink);
-    color: var(--color-cream);
-  }
+.storyCard {
+  margin-top: 3rem;
+  border-radius: 2rem;
+  background: #ffffff;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 24px 60px rgba(15, 10, 5, 0.05);
 }
 
-@media (min-width: 640px) {
-  .credentialsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.storyText {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: var(--color-ink-soft);
+}
+
+.founderSection {
+  margin-top: 3rem;
+  display: grid;
+  gap: 2rem;
+  align-items: center;
+}
+
+.founderImageWrap {
+  position: relative;
+  width: 100%;
+  min-height: 20rem;
+  border-radius: 2rem;
+  overflow: hidden;
+  background: #e7e5e4;
+}
+
+.founderImage {
+  object-fit: cover;
+}
+
+.founderContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.founderSubtitle {
+  font-size: 0.95rem;
+  color: var(--color-ink-soft);
+}
+
+.founderText {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  color: var(--color-ink-soft);
+}
+
+.founderCredentials {
+  margin-top: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  color: var(--color-ink-soft);
+}
+
+.founderCredentials h3 {
+  font-size: 1.1rem;
+  color: var(--color-ink);
+}
+
+.founderCredentials ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 @media (min-width: 1024px) {
@@ -121,13 +155,44 @@
     padding: var(--space-section) 3rem;
   }
 
-  .hero {
-    grid-template-columns: 0.5fr 0.5fr;
-    align-items: center;
-    padding-top: clamp(10rem, 16vw, 14rem);
+  .topGrid {
+    grid-template-columns: 0.45fr 0.55fr;
+    align-items: stretch;
   }
 
-  .ctaButton {
-    width: fit-content;
+  .founderSection {
+    grid-template-columns: 0.45fr 0.55fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .topGrid {
+    grid-template-areas:
+      "portfolio"
+      "mission";
+  }
+
+  .portfolioCard {
+    grid-area: portfolio;
+    min-height: 18rem;
+  }
+
+  .missionCard {
+    grid-area: mission;
+  }
+
+  .portfolioOverlay {
+    max-width: 100%;
+  }
+
+  .founderImageWrap {
+    min-height: 18rem;
+  }
+}
+
+@media (hover: hover) {
+  .portfolioButton:hover {
+    background: #fefaf5;
+    color: #1c1917;
   }
 }

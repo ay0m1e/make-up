@@ -46,7 +46,7 @@ export default function BookPaymentPage() {
             </label>
             <input
               type="text"
-              placeholder="The Wythe Hotel, Brooklyn"
+              placeholder="City Centre, Leeds"
               className={styles.input}
             />
           </div>
@@ -90,9 +90,9 @@ export default function BookPaymentPage() {
             </p>
           </div>
           <div className={styles.summaryDetails}>
-            <p>Date window: March 16, Afternoon</p>
+            <p>Date window: 16 March 2026, Afternoon</p>
             <p>Time window: 1:00 PM</p>
-            <p>Estimated investment: From $650</p>
+            <p>Estimated investment: From £650</p>
           </div>
           <p className={styles.label}>
             Deposits and contracts are shared after confirmation.

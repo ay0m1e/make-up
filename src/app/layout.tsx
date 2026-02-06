@@ -61,39 +61,64 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <footer className={styles.footer}>
             <div className={styles.footerGrid}>
               <div>
-                <p className={styles.footerLabel}>
-                  Studio
-                </p>
-                <p className={styles.footerTitle}>
-                  GLEEMAKEOVERS
-                </p>
+                <p className={styles.footerTitle}>GLEEMAKEOVERS</p>
                 <p className={styles.footerText}>
-                  Based in New York. Available for destination weddings and
-                  editorial travel worldwide.
+                  Soft, timeless makeup for modern brides and refined events.
                 </p>
               </div>
               <div>
-                <p className={styles.footerLabel}>
-                  Inquiries
-                </p>
-                <p className={styles.footerText}>
-                  hello@liora-atelier.com
-                </p>
-                <p className={styles.footerText}>
-                  +1 (212) 555-0183
-                </p>
+                <p className={styles.footerLabel}>Navigation</p>
+                <div className={styles.footerLinks}>
+                  <Link href="/" className={styles.footerLink}>
+                    Home
+                  </Link>
+                  <Link href="/services" className={styles.footerLink}>
+                    Services
+                  </Link>
+                  <Link href="/work" className={styles.footerLink}>
+                    Work
+                  </Link>
+                  <Link href="/about" className={styles.footerLink}>
+                    About
+                  </Link>
+                  <Link href="/book/service" className={styles.footerLink}>
+                    Book
+                  </Link>
+                </div>
               </div>
               <div>
-                <p className={styles.footerLabel}>
-                  Studio Hours
-                </p>
-                <p className={styles.footerText}>
-                  Tuesday - Saturday
-                </p>
-                <p className={styles.footerText}>
-                  9:00 AM - 6:00 PM
-                </p>
+                <p className={styles.footerLabel}>Contact</p>
+                <p className={styles.footerText}>+44 7438 972867</p>
+                <p className={styles.footerText}>gleemakeovers@gmail.com</p>
+                <p className={styles.footerText}>United Kingdom</p>
               </div>
+              <div>
+                <p className={styles.footerLabel}>Social</p>
+                <div className={styles.footerLinks}>
+                  <a
+                    href="https://www.instagram.com"
+                    className={styles.footerLink}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Instagram
+                  </a>
+                  <a
+                    href="https://wa.me/"
+                    className={styles.footerLink}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div className={styles.footerNote}>
+              A 50% non-refundable deposit is required to secure all bookings.
+            </div>
+            <div className={styles.footerBottom}>
+              © GLEEMAKEOVERS. All rights reserved.
             </div>
           </footer>
         </div>

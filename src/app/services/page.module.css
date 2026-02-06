@@ -20,30 +20,52 @@
   margin-top: 4rem;
   display: flex;
   flex-direction: column;
-  gap: 4rem;
+  gap: 4.5rem;
 }
 
-.card {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+.serviceSection {
+  border-radius: 2.5rem;
+  padding: clamp(2rem, 6vw, 3.5rem);
+  background: #fdfbf8;
+  box-shadow: 0 24px 60px rgba(15, 10, 5, 0.05);
 }
 
-.cardHeader {
+.serviceSectionAlt {
+  background: #f5f2ee;
+}
+
+.serviceContent {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 2rem;
+  align-items: center;
+}
+
+.serviceText {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.serviceDescriptor {
+  font-size: 1.05rem;
+  color: #3f3a35;
+  line-height: 1.6;
+}
+
+.serviceBullets {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: grid;
+  gap: 0.35rem;
+  color: #4b433d;
+  font-size: 0.95rem;
+  line-height: 1.6;
 }
 
 .cardTitle {
   font-size: 2rem;
   color: var(--color-ink);
-}
-
-.cardText {
-  font-size: 1.05rem;
-  color: #3f3a35;
-  line-height: 1.7;
 }
 
 .cardMeta {
@@ -89,10 +111,17 @@
   }
 }
 
-.cardDivider {
+.serviceImageWrap {
+  position: relative;
   width: 100%;
-  height: 1px;
-  background: rgba(231, 229, 228, 0.4);
+  min-height: 18rem;
+  border-radius: 1.75rem;
+  overflow: hidden;
+  background: #e7e5e4;
+}
+
+.serviceImage {
+  object-fit: cover;
 }
 
 .reviewsSection {
@@ -182,11 +211,69 @@
     width: fit-content;
   }
 
+  .serviceContent {
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+  }
+
+  .serviceContentReverse {
+    direction: rtl;
+  }
+
+  .serviceContentReverse > * {
+    direction: ltr;
+  }
+
   .reviewsGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .reviewCta {
     width: fit-content;
+  }
+}
+
+@media (max-width: 768px) {
+  .list {
+    gap: 3.5rem;
+  }
+
+  .serviceContent {
+    gap: 1.5rem;
+  }
+
+  .serviceImageWrap {
+    order: 0;
+    min-height: 15rem;
+  }
+
+  .serviceText {
+    order: 1;
+    gap: 0.9rem;
+  }
+
+  .cardTitle {
+    order: 1;
+  }
+
+  .serviceDescriptor {
+    order: 2;
+    font-size: 1rem;
+  }
+
+  .cardMeta {
+    order: 3;
+    font-size: 0.78rem;
+  }
+
+  .cardLink {
+    order: 4;
+    margin-top: 0.25rem;
+  }
+
+  .serviceBullets {
+    order: 5;
+    font-size: 0.9rem;
+    line-height: 1.5;
   }
 }

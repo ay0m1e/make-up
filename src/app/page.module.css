@@ -89,6 +89,8 @@
   max-width: 72rem;
   margin: 0 auto;
   padding: 3.5rem 1rem clamp(4rem, 10vw, 7rem);
+  position: relative;
+  z-index: 1;
 }
 
 .carouselLayout {
@@ -149,6 +151,9 @@
   max-width: 64rem;
   margin: 0 auto;
   padding: clamp(2.5rem, 6vw, 5rem) 1rem 3.5rem;
+  position: relative;
+  z-index: 2;
+  overflow: visible;
 }
 
 .trustInner {
@@ -360,6 +365,12 @@
 
   .reviewSlide {
     padding: 0.5rem 0.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .trustSection {
+    padding-top: 3rem;
   }
 }
 

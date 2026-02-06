@@ -6,10 +6,10 @@ import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
 const serviceChoices = [
-  { id: "bridal-atelier", name: "Bridal Atelier", price: "$650", duration: "120 minutes" },
-  { id: "event-glam", name: "Event Glam", price: "$320", duration: "75 minutes" },
-  { id: "editorial-session", name: "Editorial Session", price: "$900", duration: "180 minutes" },
-  { id: "private-lesson", name: "Private Lesson", price: "$420", duration: "90 minutes" },
+  { id: "bridal-atelier", name: "Bridal Atelier", price: "£650", duration: "120 minutes" },
+  { id: "event-glam", name: "Event Glam", price: "£320", duration: "75 minutes" },
+  { id: "editorial-session", name: "Editorial Session", price: "£900", duration: "180 minutes" },
+  { id: "private-lesson", name: "Private Lesson", price: "£420", duration: "90 minutes" },
 ];
 
 export default function BookServicePage() {

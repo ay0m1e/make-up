@@ -6,12 +6,12 @@ import { placeholderImage } from "../../../media";
 import styles from "./page.module.css";
 
 const dateOptions = [
-  "Tuesday, March 12 - Morning",
-  "Wednesday, March 13 - Afternoon",
-  "Friday, March 15 - Morning",
-  "Saturday, March 16 - Afternoon",
-  "Tuesday, March 19 - Morning",
-  "Thursday, March 21 - Afternoon",
+  "Tuesday, 12 March 2026 - Morning",
+  "Wednesday, 13 March 2026 - Afternoon",
+  "Friday, 15 March 2026 - Morning",
+  "Saturday, 16 March 2026 - Afternoon",
+  "Tuesday, 19 March 2026 - Morning",
+  "Thursday, 21 March 2026 - Afternoon",
 ];
 
 export default function BookDatePage() {
