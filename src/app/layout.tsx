@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import styles from "./layout.module.css";
 import { MobileMenu } from "../components/MobileMenu";
+import { FooterNav } from "../components/FooterNav";
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -68,23 +69,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </div>
               <div className={styles.footerNav}>
                 <p className={styles.footerLabel}>Navigation</p>
-                <div className={styles.footerLinks}>
-                  <Link href="/" className={styles.footerLink}>
-                    Home
-                  </Link>
-                  <Link href="/services" className={styles.footerLink}>
-                    Services
-                  </Link>
-                  <Link href="/work" className={styles.footerLink}>
-                    Work
-                  </Link>
-                  <Link href="/about" className={styles.footerLink}>
-                    About
-                  </Link>
-                  <Link href="/book/service" className={styles.footerLink}>
-                    Book
-                  </Link>
-                </div>
+                <FooterNav
+                  className={styles.footerLinks}
+                  linkClassName={styles.footerLink}
+                />
               </div>
               <div className={styles.footerContact}>
                 <p className={styles.footerLabel}>Contact</p>

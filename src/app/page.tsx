@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useEffect, useMemo, useState } from "react";
 import { placeholderImage } from "../media";
 import styles from "./page.module.css";
+import { ReviewsCarousel } from "../components/ReviewsCarousel";
 
 const editorialImages = [
   { alt: "Editorial beauty portrait in soft light" },
@@ -86,27 +87,11 @@ const reviews = [
   },
 ];
 
-const stars = Array.from({ length: 5 }, (_, index) => (
-  <svg
-    key={`star-${index}`}
-    viewBox="0 0 20 20"
-    aria-hidden="true"
-    className={styles.star}
-  >
-    <path
-      d="M10 2.5l2.25 4.56 5.03.73-3.64 3.55.86 5.02L10 14.2l-4.5 2.21.86-5.02-3.64-3.55 5.03-.73L10 2.5z"
-      fill="currentColor"
-    />
-  </svg>
-));
 
 export default function HomePage() {
   const reduceMotion = useReducedMotion();
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [reviewIndex, setReviewIndex] = useState(0);
-  const [reviewsPaused, setReviewsPaused] = useState(false);
-  const [reviewsDragging, setReviewsDragging] = useState(false);
 
   const carouselLayers = useMemo(
     () => [
@@ -145,20 +130,7 @@ export default function HomePage() {
     return () => window.clearInterval(id);
   }, [reduceMotion]);
   const motionOff = reduceMotion;
-  const previewLength = 170;
   const previewReviews = reviews.slice(0, 6);
-  const getPreview = (text: string) =>
-    text.length > previewLength
-      ? `${text.slice(0, previewLength).trim()}...`
-      : text;
-
-  useEffect(() => {
-    if (reduceMotion || reviewsPaused || reviewsDragging) return;
-    const id = window.setInterval(() => {
-      setReviewIndex((prev) => (prev + 1) % previewReviews.length);
-    }, 5000);
-    return () => window.clearInterval(id);
-  }, [reduceMotion, reviewsPaused, reviewsDragging, previewReviews.length]);
 
   const heroMediaProps = motionOff
     ? {}
@@ -319,55 +291,20 @@ export default function HomePage() {
         </motion.div>
       </section>
 
-      <section className={styles.reviewsSection}>
-        <div className={styles.reviewsHeader}>
-          <p className={styles.reviewsEyebrow}>Reviews</p>
-          <h2>Client words on the experience.</h2>
-        </div>
-        <div
-          className={styles.reviewsCarousel}
-          onMouseEnter={() => setReviewsPaused(true)}
-          onMouseLeave={() => setReviewsPaused(false)}
-          onTouchStart={() => setReviewsPaused(true)}
-          onTouchEnd={() => setReviewsPaused(false)}
-        >
-          <motion.div
-            className={styles.reviewsTrack}
-            animate={{ x: `-${reviewIndex * 100}%` }}
-            transition={{ duration: 0.6, ease: "easeInOut" }}
-            drag="x"
-            dragConstraints={{ left: -120, right: 120 }}
-            dragElastic={0.2}
-            onDragStart={() => setReviewsDragging(true)}
-            onDragEnd={(_, info) => {
-              setReviewsDragging(false);
-              if (info.offset.x < -60) {
-                setReviewIndex((prev) => (prev + 1) % reviews.length);
-              } else if (info.offset.x > 60) {
-                setReviewIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
-              }
-            }}
-          >
-            {previewReviews.map((review) => (
-              <div key={review.id} className={styles.reviewSlide}>
-                <div className={styles.reviewCard}>
-                  <div className={styles.reviewStars}>{stars}</div>
-                  <p className={styles.reviewText}>{getPreview(review.text)}</p>
-                  <p className={styles.reviewName}>{review.name}</p>
-                </div>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-        <div className={styles.reviewActions}>
-          <Link href="/reviews" className={styles.reviewLink}>
-            Read more reviews
-          </Link>
-          <Link href="/review" className={styles.reviewCta}>
-            Leave a review
-          </Link>
-        </div>
-      </section>
+      <ReviewsCarousel
+        title="Client words on the experience."
+        reviews={previewReviews}
+        previewLength={170}
+        intervalMs={5000}
+      />
+      <div className={styles.reviewActions}>
+        <Link href="/reviews" className={styles.reviewLink}>
+          Read more reviews
+        </Link>
+        <Link href="/review" className={styles.reviewCta}>
+          Leave a review
+        </Link>
+      </div>
 
       <section className={styles.ctaSection}>
         <motion.div

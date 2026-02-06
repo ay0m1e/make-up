@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { placeholderImage } from "../../media";
 import styles from "./page.module.css";
+import { ReviewsCarousel } from "../../components/ReviewsCarousel";
 
 const services = [
   {
@@ -184,19 +185,6 @@ const reviews = [
   },
 ];
 
-const stars = Array.from({ length: 5 }, (_, index) => (
-  <svg
-    key={`star-${index}`}
-    viewBox="0 0 20 20"
-    aria-hidden="true"
-    className={styles.star}
-  >
-    <path
-      d="M10 2.5l2.25 4.56 5.03.73-3.64 3.55.86 5.02L10 14.2l-4.5 2.21.86-5.02-3.64-3.55 5.03-.73L10 2.5z"
-      fill="currentColor"
-    />
-  </svg>
-));
 
 export default function ServicesPage() {
   const reduceMotion = useReducedMotion();
@@ -275,24 +263,22 @@ export default function ServicesPage() {
         })}
       </section>
 
-      <section className={styles.reviewsSection}>
-        <div className={styles.reviewsHeader}>
-          <p className={styles.reviewsEyebrow}>Reviews</p>
-          <h2>Client words on the experience.</h2>
+      <div className={styles.reviewsWrap}>
+        <ReviewsCarousel
+          title="Client words on the experience."
+          reviews={reviews.slice(0, 4)}
+          previewLength={160}
+          intervalMs={5000}
+        />
+        <div className={styles.reviewActions}>
+          <Link href="/reviews" className={styles.reviewLink}>
+            See more reviews
+          </Link>
+          <Link href="/review" className={styles.reviewCta}>
+            Leave a review
+          </Link>
         </div>
-        <div className={styles.reviewsGrid}>
-          {reviews.map((review) => (
-            <div key={review.name} className={styles.reviewCard}>
-              <div className={styles.reviewStars}>{stars}</div>
-              <p className={styles.reviewText}>{review.text}</p>
-              <p className={styles.reviewName}>{review.name}</p>
-            </div>
-          ))}
-        </div>
-        <Link href="/review" className={styles.reviewCta}>
-          Leave a review
-        </Link>
-      </section>
+      </div>
     </main>
   );
 }

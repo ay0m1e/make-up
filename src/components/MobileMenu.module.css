@@ -115,6 +115,7 @@
   letter-spacing: 0.04em;
   color: var(--color-ink);
   margin-top: 0.5rem;
+  text-decoration: none;
 }
 
 .menuLink {

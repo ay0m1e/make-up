@@ -41,7 +41,13 @@ export function MobileMenu() {
         role="dialog"
         aria-modal="true"
       >
-        <div className={styles.menuBrand}>GLEEMAKEOVERS</div>
+        <Link
+          href="/"
+          className={styles.menuBrand}
+          onClick={() => setMenuOpen(false)}
+        >
+          GLEEMAKEOVERS
+        </Link>
         <button
           type="button"
           className={styles.menuCloseButton}
