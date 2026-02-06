@@ -41,6 +41,7 @@ export function MobileMenu() {
         role="dialog"
         aria-modal="true"
       >
+        <div className={styles.menuBrand}>GLEEMAKEOVERS</div>
         <button
           type="button"
           className={styles.menuCloseButton}

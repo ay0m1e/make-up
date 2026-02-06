@@ -66,16 +66,17 @@
   position: fixed;
   top: 0;
   right: 0;
-  width: min(90vw, 360px);
+  width: 100vw;
   height: 100%;
-  background: var(--color-cream);
+  background: #f9f7f3;
   transform: translateX(100%);
   transition: transform 0.35s ease;
   z-index: 110;
-  padding: 5rem 1.5rem 2rem;
+  padding: 5rem 2rem 2.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
+  align-items: center;
 }
 
 .menuPanelOpen {
@@ -85,15 +86,17 @@
 .menuList {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: center;
 }
 
 .menuCloseButton {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 44px;
-  height: 44px;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 48px;
+  height: 48px;
   border: 1px solid var(--color-border-strong);
   border-radius: 999px;
   background: transparent;
@@ -106,16 +109,24 @@
   cursor: pointer;
 }
 
+.menuBrand {
+  font-family: var(--font-display), ui-serif, Georgia, serif;
+  font-size: 1.5rem;
+  letter-spacing: 0.04em;
+  color: var(--color-ink);
+  margin-top: 0.5rem;
+}
+
 .menuLink {
-  font-size: 1.125rem;
+  font-size: 1.15rem;
   text-decoration: none;
   color: var(--color-ink);
 }
 
 .menuCta {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   border: 1px solid var(--color-border-strong);
-  padding: 0.9rem 1.5rem;
+  padding: 1rem 1.5rem;
   border-radius: 999px;
   text-transform: uppercase;
   letter-spacing: 0.25em;
@@ -123,7 +134,15 @@
   color: var(--color-ink);
   text-decoration: none;
   text-align: center;
-  width: 100%;
+  width: min(20rem, 100%);
+}
+
+.menuLink:focus-visible,
+.menuCta:focus-visible,
+.menuCloseButton:focus-visible,
+.menuButton:focus-visible {
+  outline: 2px solid rgba(41, 37, 36, 0.5);
+  outline-offset: 3px;
 }
 
 @media (min-width: 768px) {
