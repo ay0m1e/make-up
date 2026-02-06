@@ -40,6 +40,7 @@
   background: #e7e5e4;
   display: flex;
   align-items: flex-end;
+  margin-top: 3rem;
 }
 
 .portfolioImage {
@@ -156,7 +157,7 @@
   }
 
   .topGrid {
-    grid-template-columns: 0.45fr 0.55fr;
+    grid-template-columns: 1fr;
     align-items: stretch;
   }
 
@@ -166,19 +167,8 @@
 }
 
 @media (max-width: 768px) {
-  .topGrid {
-    grid-template-areas:
-      "portfolio"
-      "mission";
-  }
-
   .portfolioCard {
-    grid-area: portfolio;
     min-height: 18rem;
-  }
-
-  .missionCard {
-    grid-area: mission;
   }
 
   .portfolioOverlay {

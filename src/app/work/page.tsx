@@ -9,27 +9,27 @@ import styles from "./page.module.css";
 const portfolio = [
   {
     alt: "Editorial beauty portrait with soft glow",
-    title: "Modern Glow",
+    title: "Soft Glam Finish",
   },
   {
     alt: "Neutral bridal makeup with satin skin",
-    title: "Bridal Satin",
+    title: "Bridal Glow",
   },
   {
     alt: "Studio portrait with muted tones",
-    title: "Muted Studio",
+    title: "Studio Soft Matte",
   },
   {
     alt: "Evening look with sculpted cheeks",
-    title: "Evening Sculpture",
+    title: "Evening Sculpt",
   },
   {
     alt: "Fashion week makeup detail",
-    title: "Runway Detail",
+    title: "Editorial Detail",
   },
   {
     alt: "Soft-focus campaign beauty portrait",
-    title: "Soft Focus",
+    title: "Radiant Focus",
   },
 ];
 

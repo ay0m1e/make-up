@@ -36,33 +36,6 @@ export default function AboutPage() {
             customer experience.
           </p>
         </motion.article>
-
-        <motion.div
-          className={styles.portfolioCard}
-          {...(reduceMotion
-            ? {}
-            : {
-                initial: { opacity: 0, y: 26 },
-                whileInView: { opacity: 1, y: 0 },
-                viewport: { once: true, amount: 0.5 },
-                transition: { duration: 0.9, ease: "easeOut" },
-              })}
-        >
-          <Image
-            src={placeholderImage}
-            alt="Portfolio preview"
-            fill
-            className={styles.portfolioImage}
-            sizes="(min-width: 1024px) 50vw, 100vw"
-            priority
-          />
-          <div className={styles.portfolioOverlay}>
-            <h2>Explore Our Portfolio!</h2>
-            <Link href="/work" className={styles.portfolioButton}>
-              Portfolio
-            </Link>
-          </div>
-        </motion.div>
       </section>
 
       <motion.section
@@ -155,6 +128,33 @@ export default function AboutPage() {
               <li>Known for a calm, professional, and client-focused approach</li>
             </ul>
           </div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        className={styles.portfolioCard}
+        {...(reduceMotion
+          ? {}
+          : {
+              initial: { opacity: 0, y: 26 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, amount: 0.5 },
+              transition: { duration: 0.9, ease: "easeOut" },
+            })}
+      >
+        <Image
+          src={placeholderImage}
+          alt="Portfolio preview"
+          fill
+          className={styles.portfolioImage}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          priority
+        />
+        <div className={styles.portfolioOverlay}>
+          <h2>Explore Our Portfolio!</h2>
+          <Link href="/work" className={styles.portfolioButton}>
+            Portfolio
+          </Link>
         </div>
       </motion.section>
     </main>
