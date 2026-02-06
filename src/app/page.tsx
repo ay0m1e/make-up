@@ -138,13 +138,13 @@ export default function HomePage() {
   }, []);
 
   useEffect(() => {
-    if (reduceMotion || isMobile) return;
+    if (reduceMotion) return;
     const id = window.setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % editorialImages.length);
     }, 4200);
     return () => window.clearInterval(id);
-  }, [reduceMotion, isMobile]);
-  const motionOff = reduceMotion || isMobile;
+  }, [reduceMotion]);
+  const motionOff = reduceMotion;
   const previewLength = 170;
   const previewReviews = reviews.slice(0, 6);
   const getPreview = (text: string) =>
@@ -359,12 +359,14 @@ export default function HomePage() {
             ))}
           </motion.div>
         </div>
-        <Link href="/reviews" className={styles.reviewLink}>
-          Read more reviews
-        </Link>
-        <Link href="/review" className={styles.reviewCta}>
-          Leave a review
-        </Link>
+        <div className={styles.reviewActions}>
+          <Link href="/reviews" className={styles.reviewLink}>
+            Read more reviews
+          </Link>
+          <Link href="/review" className={styles.reviewCta}>
+            Leave a review
+          </Link>
+        </div>
       </section>
 
       <section className={styles.ctaSection}>

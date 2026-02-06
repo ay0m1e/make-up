@@ -60,13 +60,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {children}
           <footer className={styles.footer}>
             <div className={styles.footerGrid}>
-              <div>
+              <div className={styles.footerBrand}>
                 <p className={styles.footerTitle}>GLEEMAKEOVERS</p>
                 <p className={styles.footerText}>
                   Soft, timeless makeup for modern brides and refined events.
                 </p>
               </div>
-              <div>
+              <div className={styles.footerNav}>
                 <p className={styles.footerLabel}>Navigation</p>
                 <div className={styles.footerLinks}>
                   <Link href="/" className={styles.footerLink}>
@@ -86,15 +86,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   </Link>
                 </div>
               </div>
-              <div>
+              <div className={styles.footerContact}>
                 <p className={styles.footerLabel}>Contact</p>
                 <p className={styles.footerText}>+44 7438 972867</p>
                 <p className={styles.footerText}>gleemakeovers@gmail.com</p>
                 <p className={styles.footerText}>United Kingdom</p>
               </div>
-              <div>
+              <div className={styles.footerSocial}>
                 <p className={styles.footerLabel}>Social</p>
-                <div className={styles.footerLinks}>
+                <div className={`${styles.footerLinks} ${styles.footerSocialLinks}`}>
                   <a
                     href="https://www.instagram.com"
                     className={styles.footerLink}

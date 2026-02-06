@@ -183,9 +183,66 @@
 @media (max-width: 768px) {
   .footerGrid {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding: 2.5rem 1.5rem 2rem;
   }
 
   .footerLinks {
     align-items: center;
+  }
+
+  .footerNote {
+    text-align: center;
+    padding: 0 1.5rem 1.5rem;
+  }
+
+  .footerBottom {
+    font-size: 0.75rem;
+  }
+
+  .footerBrand {
+    order: 1;
+  }
+
+  .footerBrand .footerTitle {
+    font-size: 1.6rem;
+  }
+
+  .footerNav {
+    order: 2;
+  }
+
+  .footerContact {
+    order: 3;
+    background: #f3efe9;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .footerSocial {
+    order: 4;
+  }
+
+  .footerLinks {
+    gap: 0.9rem;
+  }
+
+  .footerNav .footerLinks {
+    margin-top: 0.75rem;
+  }
+
+  .footerSocialLinks {
+    flex-direction: row;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .footerSocialLinks .footerLink {
+    border: 1px solid rgba(41, 37, 36, 0.3);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
   }
 }

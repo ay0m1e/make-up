@@ -258,19 +258,24 @@
   color: #78716c;
 }
 
+.reviewActions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+  margin-top: 0.75rem;
+}
+
 .reviewLink {
-  align-self: center;
   display: inline-flex;
   font-size: 0.85rem;
   color: var(--color-ink);
   text-decoration: none;
   border-bottom: 1px solid rgba(41, 37, 36, 0.4);
   padding-bottom: 0.2rem;
-  margin-top: 0.75rem;
 }
 
 .reviewCta {
-  align-self: center;
   border: 1px solid var(--color-border-strong);
   padding: 0.7rem 1.4rem;
   border-radius: 999px;
@@ -358,6 +363,12 @@
     width: fit-content;
   }
 
+  .reviewActions {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
   .carouselStage {
     width: 100%;
     margin-left: 0;
@@ -369,6 +380,34 @@
 }
 
 @media (max-width: 768px) {
+  .hero,
+  .carouselSection,
+  .trustSection,
+  .reviewsSection,
+  .ctaSection {
+    display: block;
+    position: relative;
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .hero {
+    min-height: auto;
+  }
+
+  .heroInner {
+    min-height: auto;
+    padding: 6rem 1rem 2.5rem;
+  }
+
+  .carouselSection {
+    padding-top: 2.5rem;
+  }
+
+  .carouselStage {
+    min-height: 420px;
+  }
+
   .trustSection {
     padding-top: 3rem;
   }
