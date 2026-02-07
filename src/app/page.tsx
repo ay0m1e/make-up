@@ -113,10 +113,10 @@ export default function HomePage() {
 
   const handleDragEnd = (_: unknown, info: { offset: { y: number } }) => {
     if (info.offset.y < -60) {
-      setActiveIndex((prev) => (prev + 1) % editorialImages.length);
+      setActiveIndex((prev) => (prev + 1) % stackImages.length);
     }
     if (info.offset.y > 60) {
-      setActiveIndex((prev) => (prev - 1 + editorialImages.length) % editorialImages.length);
+      setActiveIndex((prev) => (prev - 1 + stackImages.length) % stackImages.length);
     }
   };
 
