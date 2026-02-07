@@ -9,13 +9,12 @@ import { placeholderImage } from "../media";
 import styles from "./page.module.css";
 import { ReviewsCarousel } from "../components/ReviewsCarousel";
 
-const editorialImages = [
-  { alt: "Editorial beauty portrait in soft light" },
-  { alt: "Warm bridal look with luminous skin" },
-  { alt: "Studio portrait with neutral tones" },
-  { alt: "Evening makeup with refined glow" },
-  { alt: "Campaign portrait with sculpted finish" },
-  { alt: "Soft glam close-up with satin skin" },
+const stackImages = [
+  { src: "/images/stack/stack-1.jpg", alt: "Bridal makeup with soft glow" },
+  { src: "/images/stack/stack-2.jpg", alt: "Editorial makeup with polished finish" },
+  { src: "/images/stack/stack-3.jpg", alt: "Event makeup with luminous skin" },
+  { src: "/images/stack/stack-4.jpg", alt: "Classic bridal makeup detail" },
+  { src: "/images/stack/stack-5.jpg", alt: "Soft glam portrait" },
 ];
 
 const reviews = [
@@ -94,16 +93,23 @@ export default function HomePage() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const carouselLayers = useMemo(
-    () => [
-      { y: 0, scale: 1, rotate: 0, opacity: 1, z: 3 },
-      { y: 50, scale: 0.96, rotate: -2, opacity: 0.75, z: 2 },
-      { y: 95, scale: 0.92, rotate: 2, opacity: 0.55, z: 1 },
-    ],
-    [],
+    () =>
+      isMobile
+        ? [
+            { y: 0, scale: 1, rotate: 0, opacity: 1, z: 3 },
+            { y: 30, scale: 0.98, rotate: -1, opacity: 0.7, z: 2 },
+            { y: 60, scale: 0.96, rotate: 1, opacity: 0.5, z: 1 },
+          ]
+        : [
+            { y: 0, scale: 1, rotate: 0, opacity: 1, z: 3 },
+            { y: 50, scale: 0.96, rotate: -2, opacity: 0.75, z: 2 },
+            { y: 95, scale: 0.92, rotate: 2, opacity: 0.55, z: 1 },
+          ],
+    [isMobile],
   );
 
   const getImageIndex = (offset: number) =>
-    (activeIndex + offset + editorialImages.length) % editorialImages.length;
+    (activeIndex + offset + stackImages.length) % stackImages.length;
 
   const handleDragEnd = (_: unknown, info: { offset: { y: number } }) => {
     if (info.offset.y < -60) {
@@ -125,8 +131,8 @@ export default function HomePage() {
   useEffect(() => {
     if (reduceMotion) return;
     const id = window.setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % editorialImages.length);
-    }, 4200);
+      setActiveIndex((prev) => (prev + 1) % stackImages.length);
+    }, 6000);
     return () => window.clearInterval(id);
   }, [reduceMotion]);
   const motionOff = reduceMotion;
@@ -215,7 +221,7 @@ export default function HomePage() {
 
           <div className={styles.carouselStage}>
             {carouselLayers.map((layer, layerIndex) => {
-              const image = editorialImages[getImageIndex(layerIndex)];
+              const image = stackImages[getImageIndex(layerIndex)];
               const isTop = layerIndex === 0;
               return (
                 <motion.div
@@ -256,7 +262,7 @@ export default function HomePage() {
                   }
                 >
                     <Image
-                      src={placeholderImage}
+                      src={image.src}
                       alt={image.alt}
                       fill
                       className={styles.carouselImage}
