@@ -25,6 +25,28 @@ pnpm-debug.log*
 .env.production.local
 .env.*.local
 
+# Python / Flask
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+.tox/
+.nox/
+.hypothesis/
+.venv/
+venv/
+env/
+ENV/
+instance/
+*.sqlite3
+*.db
+
 # OS / Editor
 .DS_Store
 Thumbs.db
