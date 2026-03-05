@@ -1,0 +1,12 @@
+# Exclude Flask backend from Vercel frontend deployment
+app/
+manage.py
+requirements.txt
+tests/
+
+# Local/dev artefacts
+.venv/
+__pycache__/
+*.pyc
+.env
+.env.*
