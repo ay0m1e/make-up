@@ -8,8 +8,8 @@ from typing import Any
 from flask import Blueprint, current_app, jsonify, request
 from flask_jwt_extended import jwt_required
 
-from app.services import BookingService
-from app.services.error_handlers import ApiError
+from backend_app.services import BookingService
+from backend_app.services.error_handlers import ApiError
 
 
 bookings_bp = Blueprint("bookings", __name__, url_prefix="/api")

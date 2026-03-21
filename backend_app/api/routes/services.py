@@ -8,9 +8,9 @@ import sqlalchemy as sa
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 
-from app.extensions import db
-from app.models import Service
-from app.services.error_handlers import ApiError
+from backend_app.extensions import db
+from backend_app.models import Service
+from backend_app.services.error_handlers import ApiError
 
 
 services_bp = Blueprint("services", __name__, url_prefix="/api")

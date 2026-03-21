@@ -1,5 +1,5 @@
 # Exclude Flask backend from Vercel frontend deployment
-app/
+backend_app/
 manage.py
 requirements.txt
 tests/

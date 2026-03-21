@@ -4,8 +4,8 @@ from __future__ import annotations
 import sqlalchemy as sa
 from flask import Flask
 
-from app.extensions import db
-from app.models import Service
+from backend_app.extensions import db
+from backend_app.models import Service
 
 
 SAMPLE_SERVICES = (

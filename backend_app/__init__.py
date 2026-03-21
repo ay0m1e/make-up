@@ -3,15 +3,15 @@ from __future__ import annotations
 
 from flask import Flask
 
-from app.api.routes import bookings_bp, health_bp, services_bp
-from app.cli import register_cli_commands
-from app.config import get_config_class
-from app.extensions import db, jwt
-from app.services.error_handlers import register_error_handlers
-from app.services.logging_config import configure_logging
+from backend_app.api.routes import bookings_bp, health_bp, services_bp
+from backend_app.cli import register_cli_commands
+from backend_app.config import get_config_class
+from backend_app.extensions import db, jwt
+from backend_app.services.error_handlers import register_error_handlers
+from backend_app.services.logging_config import configure_logging
 
 # Import models so SQLAlchemy metadata is registered.
-from app import models  # noqa: F401
+from backend_app import models  # noqa: F401
 
 
 

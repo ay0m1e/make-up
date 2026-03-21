@@ -7,8 +7,8 @@ from uuid import uuid4
 
 import pytest
 
-from app.services.booking_service import BookingService
-from app.services.error_handlers import ApiError
+from backend_app.services.booking_service import BookingService
+from backend_app.services.error_handlers import ApiError
 
 
 class _FakeResult:

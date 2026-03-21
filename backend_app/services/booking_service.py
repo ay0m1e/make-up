@@ -8,9 +8,9 @@ from uuid import UUID
 import sqlalchemy as sa
 from sqlalchemy.exc import IntegrityError
 
-from app.extensions import db
-from app.models import Booking, Service
-from app.services.error_handlers import ApiError
+from backend_app.extensions import db
+from backend_app.models import Booking, Service
+from backend_app.services.error_handlers import ApiError
 
 
 ACTIVE_BOOKING_STATUSES = ("pending", "confirmed")

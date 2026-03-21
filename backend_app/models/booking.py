@@ -2,7 +2,7 @@
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
 
-from app.extensions import db
+from backend_app.extensions import db
 
 
 class Booking(db.Model):
