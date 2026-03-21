@@ -45,12 +45,8 @@ class BookingService:
 
         service_uuid = self._parse_uuid(service_id, field_name="service_id")
 
-        # Use a savepoint when called inside an existing transaction so booking
-        # creation remains atomic without rolling back unrelated outer work.
-        tx = self.session.begin() if not self.session.in_transaction() else self.session.begin_nested()
-
         try:
-            with tx:
+            with self.session.begin():
                 service = self._get_active_service(service_uuid)
                 total_amount_pence, deposit_amount_pence = self._calculate_amounts(service, quantity)
                 end_time = self._compute_end_time(
@@ -169,9 +165,8 @@ class BookingService:
 
     def confirm_deposit(self, booking_id: str | UUID) -> dict[str, Any]:
         booking_uuid = self._parse_uuid(booking_id, field_name="booking_id")
-        tx = self.session.begin() if not self.session.in_transaction() else self.session.begin_nested()
 
-        with tx:
+        with self.session.begin():
             booking = self._get_booking_for_update(booking_uuid)
 
             if booking.booking_status == "cancelled":
@@ -204,9 +199,8 @@ class BookingService:
 
     def cancel_booking(self, booking_id: str | UUID) -> dict[str, Any]:
         booking_uuid = self._parse_uuid(booking_id, field_name="booking_id")
-        tx = self.session.begin() if not self.session.in_transaction() else self.session.begin_nested()
 
-        with tx:
+        with self.session.begin():
             booking = self._get_booking_for_update(booking_uuid)
 
             if booking.booking_status == "cancelled":

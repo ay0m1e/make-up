@@ -39,6 +39,17 @@ def register_error_handlers(app: Flask) -> None:
     @app.errorhandler(Exception)
     def handle_unexpected_error(error: Exception):
         app.logger.exception("unhandled_exception")
+
+        if app.debug:
+            return (
+                jsonify({
+                    "error": "internal_server_error",
+                    "message": str(error),
+                    "exception_type": error.__class__.__name__,
+                }),
+                500,
+            )
+
         return (
             jsonify({
                 "error": "internal_server_error",
