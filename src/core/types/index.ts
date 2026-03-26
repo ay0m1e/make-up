@@ -1,39 +1,58 @@
-// Shared types placeholder.
-// Shared domain types for the booking system
-// These mirror the Flask backend responses
-
+// Shared booking and API types used across the frontend.
 export interface Service {
-  id: string
-  name: string
-  description?: string
-  price: number
-  duration_minutes: number
-  is_active: boolean
+  id: string;
+  name: string;
+  description?: string | null;
+  price_pence: number;
+  duration_minutes: number;
+  category?: string | null;
+  is_active: boolean;
+  created_at?: string | null;
 }
 
-export interface AvailabilitySlot {
-  start: string // ISO datetime
-  end: string   // ISO datetime
+export interface ServiceListResponse {
+  data: Service[];
+  meta?: {
+    count?: number;
+  };
 }
-
-export type PaymentMode = 'online' | 'in_person'
 
 export interface BookingDraft {
-  service?: Service
-  date?: string // YYYY-MM-DD
-  timeSlot?: AvailabilitySlot
-  paymentMode?: PaymentMode
+  service?: Service;
+  booking_date?: string;
+  start_time?: string;
+  quantity: number;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  notes: string;
+  confirmation?: BookingConfirmation;
 }
 
-export type BookingStatus = 'pending' | 'confirmed' | 'cancelled'
+export interface CreateBookingPayload {
+  service_id: string;
+  booking_date: string;
+  start_time: string;
+  quantity: number;
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+  notes?: string;
+}
 
-export interface Booking {
-  id: string
-  service: Service
-  date: string
-  start_time: string
-  end_time: string
-  status: BookingStatus
-  payment_mode: PaymentMode
-  created_at: string
+export interface BankTransferInstructions {
+  account_name: string;
+  sort_code: string;
+  account_number: string;
+  instructions: string;
+}
+
+export interface BookingConfirmation {
+  booking_id: string;
+  reference_code: string;
+  booking_status: string;
+  payment_status: string;
+  total_amount_pence: number;
+  deposit_amount_pence: number;
+  bank_transfer: BankTransferInstructions;
 }

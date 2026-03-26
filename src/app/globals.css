@@ -1,12 +1,17 @@
 :root {
   color-scheme: light;
-  --color-ink: #1c1917;
-  --color-ink-soft: #57534e;
-  --color-cream: #fafaf9;
-  --color-warm: #f5f2ee;
-  --color-white: #ffffff;
-  --color-border: #e7e5e4;
-  --color-border-strong: #292524;
+  --color-ink: #1f1a17;
+  --color-ink-soft: #5f5750;
+  --color-cream: #fcf7f1;
+  --color-warm: #f4ede4;
+  --color-white: #fffdfa;
+  --color-sand: #f7f0e7;
+  --color-border: #e8ddd2;
+  --color-border-strong: #342b25;
+  --color-accent: #c86f3f;
+  --color-accent-strong: #ae5d31;
+  --color-accent-soft: #f4e2d6;
+  --color-accent-border: #ddb095;
   --space-page: 1.5rem;
   --space-section: 4rem;
 }
@@ -22,6 +27,7 @@ body {
   background-color: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-size: 1.0625rem;
   -webkit-font-smoothing: antialiased;
   padding-top: 72px;
 }
@@ -72,7 +78,7 @@ h3 {
 
 p {
   margin: 0;
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 1.04rem;
+  line-height: 1.75;
   color: var(--color-ink-soft);
 }

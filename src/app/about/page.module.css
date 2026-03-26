@@ -6,9 +6,9 @@
 }
 
 .eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.22em;
   color: #78716c;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .missionText {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: var(--color-ink-soft);
 }
 
@@ -65,9 +65,9 @@
   border: 1px solid #fefaf5;
   padding: 0.65rem 1.4rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.18em;
   color: #fefaf5;
   text-decoration: none;
   text-align: center;
@@ -118,7 +118,7 @@
 }
 
 .founderSubtitle {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--color-ink-soft);
 }
 
@@ -147,7 +147,7 @@
   padding-left: 1.1rem;
   display: grid;
   gap: 0.4rem;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.6;
 }
 

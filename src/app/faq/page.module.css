@@ -17,14 +17,14 @@
 }
 
 .eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.22em;
   color: #78716c;
 }
 
 .heroText {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: var(--color-ink-soft);
 }
 
@@ -61,7 +61,7 @@
 
 .cardText {
   margin-top: 0.75rem;
-  font-size: 0.875rem;
+  font-size: 0.98rem;
   color: var(--color-ink-soft);
 }
 

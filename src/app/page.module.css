@@ -42,9 +42,9 @@
 }
 
 .heroEyebrow {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.35em;
+  letter-spacing: 0.22em;
   color: #e7e5e4;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .heroSubtitle {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: #e7e5e4;
 }
 
@@ -71,12 +71,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #f5f5f4;
+  border: 1px solid rgba(242, 210, 190, 0.9);
+  background: rgba(200, 111, 63, 0.16);
   padding: 0.75rem 1.5rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.18em;
   color: #fefdfb;
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
@@ -106,14 +107,14 @@
 }
 
 .carouselEyebrow {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.22em;
   color: #78716c;
 }
 
 .carouselTextBody {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: var(--color-ink-soft);
 }
 
@@ -165,14 +166,14 @@
 }
 
 .trustEyebrow {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.22em;
   color: #78716c;
 }
 
 .trustText {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: var(--color-ink-soft);
 }
 
@@ -186,21 +187,22 @@
 
 .reviewLink {
   display: inline-flex;
-  font-size: 0.85rem;
+  font-size: 0.96rem;
   color: var(--color-ink);
   text-decoration: none;
-  border-bottom: 1px solid rgba(41, 37, 36, 0.4);
+  border-bottom: 1px solid rgba(200, 111, 63, 0.45);
   padding-bottom: 0.2rem;
 }
 
 .reviewCta {
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-accent-border);
+  background: var(--color-accent-soft);
   padding: 0.7rem 1.4rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--color-ink);
+  letter-spacing: 0.18em;
+  color: var(--color-accent-strong);
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 100%;
@@ -224,25 +226,26 @@
 }
 
 .ctaEyebrow {
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.22em;
   color: #78716c;
 }
 
 .ctaText {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: var(--color-ink-soft);
 }
 
 .ctaButton {
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
   padding: 0.75rem 1.5rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: var(--color-ink);
+  letter-spacing: 0.18em;
+  color: var(--color-cream);
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 100%;
@@ -251,17 +254,20 @@
 
 @media (hover: hover) {
   .heroCta:hover {
-    background: #fefdfb;
-    color: #1c1917;
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fefdfb;
   }
 
   .ctaButton:hover {
-    background: var(--color-ink);
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
     color: var(--color-cream);
   }
 
   .reviewCta:hover {
-    background: var(--color-ink);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
     color: var(--color-cream);
   }
 }

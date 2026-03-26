@@ -1,4 +1,6 @@
-// Booking-related types placeholder.
-export interface BookingDetails {
-  // TODO: define booking details
-}
+// Booking-specific type re-exports for convenience.
+export type {
+  BookingConfirmation,
+  BookingDraft,
+  CreateBookingPayload,
+} from "../types";

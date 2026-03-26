@@ -1,0 +1,310 @@
+.page {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.5rem 1rem 4rem;
+}
+
+.shell {
+  display: grid;
+  gap: 2rem;
+}
+
+.header {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 44rem;
+}
+
+.eyebrow {
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #78716c;
+}
+
+.subtext {
+  max-width: 40rem;
+}
+
+.section {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.list {
+  display: grid;
+  gap: 1rem;
+}
+
+.serviceButton {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 1.5rem;
+}
+
+.serviceButton :global(article) {
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  padding: 1rem;
+  background: var(--color-white);
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.serviceSelected :global(article) {
+  border-color: var(--color-accent-border);
+  background: var(--color-accent-soft);
+}
+
+@media (hover: hover) {
+  .serviceButton:hover :global(article) {
+    border-color: var(--color-accent-border);
+    transform: translateY(-1px);
+  }
+}
+
+.card {
+  border: 1px solid var(--color-border);
+  border-radius: 1.5rem;
+  background: var(--color-white);
+  padding: 1.5rem;
+}
+
+.cardMuted {
+  background: #f7f4ef;
+}
+
+.fieldGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.field {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.86rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: #6b625c;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-ink);
+  padding: 0.95rem 1rem;
+  outline: none;
+}
+
+.input:focus,
+.textarea:focus {
+  border-color: var(--color-accent);
+}
+
+.textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.slotsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.slotButton {
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-white);
+  padding: 1rem;
+  text-align: left;
+  color: var(--color-ink);
+  cursor: pointer;
+}
+
+.slotSelected {
+  border-color: var(--color-accent-border);
+  background: var(--color-accent-soft);
+}
+
+.slotLabel {
+  display: block;
+  font-size: 1rem;
+  color: var(--color-ink);
+}
+
+.slotNote {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.88rem;
+  color: #78716c;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.summaryGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.summaryList {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: baseline;
+}
+
+.summaryKey {
+  color: #6b625c;
+}
+
+.summaryValue {
+  color: var(--color-ink);
+  text-align: right;
+}
+
+.totals {
+  border-top: 1px solid var(--color-border);
+  padding-top: 1rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.totalStrong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.9rem;
+}
+
+.primaryButton,
+.secondaryButton,
+.linkButton {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.9rem 1.4rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.primaryButton {
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
+  color: var(--color-cream);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.secondaryButton,
+.linkButton {
+  border: 1px solid var(--color-accent-border);
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.errorBox {
+  border-radius: 1rem;
+  border: 1px solid #d6b4ab;
+  background: #fbefeb;
+  color: #8b3022;
+  padding: 1rem 1.1rem;
+}
+
+.helperText {
+  font-size: 1rem;
+}
+
+.loadingState {
+  color: #6b625c;
+}
+
+.confirmCard {
+  max-width: 46rem;
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.bankGrid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.bankItem {
+  border: 1px solid var(--color-border);
+  border-radius: 1rem;
+  background: var(--color-white);
+  padding: 1rem 1.1rem;
+}
+
+.bankLabel {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: #78716c;
+  margin-bottom: 0.4rem;
+}
+
+.bankValue {
+  color: var(--color-ink);
+  word-break: break-word;
+}
+
+.instructionBox {
+  border-radius: 1rem;
+  background: #f7f4ef;
+  padding: 1.1rem 1.2rem;
+}
+
+.inlineLink {
+  color: var(--color-ink);
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .summaryGrid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+    align-items: start;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding-inline: 3rem;
+  }
+}

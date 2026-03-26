@@ -1,41 +1,105 @@
-// Booking confirmation page.
-import Image from "next/image";
+// Final booking screen with deposit instructions from the backend.
+"use client";
+
 import Link from "next/link";
-import { placeholderImage } from "../../../media";
-import styles from "./page.module.css";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { clearBookingDraft, getBookingDraft } from "../../../core/booking/store";
+import type { BookingDraft } from "../../../core/types";
+import { formatBookingDate, formatBookingTime } from "../../../lib/booking-format";
+import { formatPence } from "../../../lib/money";
+import styles from "../flow.module.css";
 
 export default function BookConfirmPage() {
+  const router = useRouter();
+  const [draft, setDraft] = useState<BookingDraft | null>(null);
+
+  useEffect(() => {
+    const currentDraft = getBookingDraft();
+    if (!currentDraft.confirmation) {
+      router.replace("/book/summary");
+      return;
+    }
+
+    setDraft(currentDraft);
+  }, [router]);
+
+  if (!draft?.confirmation || !draft.service || !draft.booking_date || !draft.start_time) {
+    return null;
+  }
+
+  function handleStartAnotherBooking() {
+    clearBookingDraft();
+    router.push("/book/service");
+  }
+
   return (
     <main className={styles.page}>
-      <div className={styles.card}>
-        <div className={styles.avatar}>
-          <Image
-            src={placeholderImage}
-            alt="Soft makeup kit detail"
-            width={160}
-            height={160}
-            className={styles.avatarImage}
-          />
-        </div>
-        <p className={styles.eyebrow}>
-          Request received
-        </p>
-        <h1 className={styles.title}>Your booking request is confirmed.</h1>
-        <p className={styles.text}>
-          The studio will review your details and respond within two business
-          days with a tailored proposal and next steps.
-        </p>
+      <div className={`${styles.card} ${styles.confirmCard}`}>
+        <header className={styles.header}>
+          <p className={styles.eyebrow}>Booking created</p>
+          <h1>Deposit instructions</h1>
+          <p className={styles.subtext}>
+            Your booking is now pending. Use the details below to send the deposit and include
+            your booking reference as the transfer reference.
+          </p>
+        </header>
+
+        <section className={styles.summaryGrid}>
+          <div className={styles.card}>
+            <p className={styles.label}>Booking summary</p>
+            <div className={styles.summaryList}>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Reference</span>
+                <span className={`${styles.summaryValue} ${styles.totalStrong}`}>
+                  {draft.confirmation.reference_code}
+                </span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Service</span>
+                <span className={styles.summaryValue}>{draft.service.name}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Date</span>
+                <span className={styles.summaryValue}>{formatBookingDate(draft.booking_date)}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Time</span>
+                <span className={styles.summaryValue}>{formatBookingTime(draft.start_time)}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Deposit required</span>
+                <span className={`${styles.summaryValue} ${styles.totalStrong}`}>
+                  {formatPence(draft.confirmation.deposit_amount_pence)}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className={styles.bankGrid}>
+            <div className={styles.bankItem}>
+              <p className={styles.bankLabel}>Account name</p>
+              <p className={styles.bankValue}>{draft.confirmation.bank_transfer.account_name}</p>
+            </div>
+            <div className={styles.bankItem}>
+              <p className={styles.bankLabel}>Sort code</p>
+              <p className={styles.bankValue}>{draft.confirmation.bank_transfer.sort_code}</p>
+            </div>
+            <div className={styles.bankItem}>
+              <p className={styles.bankLabel}>Account number</p>
+              <p className={styles.bankValue}>{draft.confirmation.bank_transfer.account_number}</p>
+            </div>
+            <div className={styles.instructionBox}>
+              <p>{draft.confirmation.bank_transfer.instructions}</p>
+            </div>
+          </div>
+        </section>
+
         <div className={styles.actions}>
-          <Link
-            href="/work"
-            className={styles.secondary}
-          >
-            View the portfolio
-          </Link>
-          <Link
-            href="/"
-            className={styles.primary}
-          >
+          <button type="button" className={styles.linkButton} onClick={handleStartAnotherBooking}>
+            Start another booking
+          </button>
+          <Link href="/" className={styles.primaryButton}>
             Return home
           </Link>
         </div>

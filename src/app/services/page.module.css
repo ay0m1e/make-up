@@ -12,7 +12,7 @@
 }
 
 .introText {
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: var(--color-ink-soft);
 }
 
@@ -26,12 +26,12 @@
 .serviceSection {
   border-radius: 2.5rem;
   padding: clamp(2rem, 6vw, 3.5rem);
-  background: #fdfbf8;
+  background: #fdf8f3;
   box-shadow: 0 24px 60px rgba(15, 10, 5, 0.05);
 }
 
 .serviceSectionAlt {
-  background: #f5f2ee;
+  background: #f4ede4;
 }
 
 .serviceContent {
@@ -48,7 +48,7 @@
 }
 
 .serviceDescriptor {
-  font-size: 1.05rem;
+  font-size: 1.12rem;
   color: #3f3a35;
   line-height: 1.6;
 }
@@ -59,7 +59,7 @@
   display: grid;
   gap: 0.35rem;
   color: #4b433d;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.6;
 }
 
@@ -72,15 +72,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1.5rem;
-  font-size: 0.8rem;
+  font-size: 0.88rem;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.18em;
   color: #6b625c;
 }
 
 .cardPrice {
   font-weight: 600;
-  color: #2b2622;
+  color: var(--color-accent-strong);
 }
 
 .cardDuration {
@@ -93,20 +93,22 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-accent-border);
+  background: var(--color-accent-soft);
   padding: 0.75rem 1.5rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
-  color: var(--color-ink);
+  letter-spacing: 0.18em;
+  color: var(--color-accent-strong);
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 @media (hover: hover) {
   .cardLink:hover {
-    background: var(--color-ink);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
     color: var(--color-cream);
   }
 }
@@ -138,21 +140,22 @@
 
 .reviewLink {
   display: inline-flex;
-  font-size: 0.85rem;
+  font-size: 0.96rem;
   color: var(--color-ink);
   text-decoration: none;
-  border-bottom: 1px solid rgba(41, 37, 36, 0.4);
+  border-bottom: 1px solid rgba(200, 111, 63, 0.45);
   padding-bottom: 0.2rem;
 }
 
 .reviewCta {
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-accent-border);
+  background: var(--color-accent-soft);
   padding: 0.7rem 1.4rem;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  color: var(--color-ink);
+  letter-spacing: 0.18em;
+  color: var(--color-accent-strong);
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 100%;
@@ -193,7 +196,8 @@
 
 @media (hover: hover) {
   .reviewCta:hover {
-    background: var(--color-ink);
+    background: var(--color-accent);
+    border-color: var(--color-accent);
     color: var(--color-cream);
   }
 }
@@ -228,7 +232,7 @@
 
   .cardMeta {
     order: 3;
-    font-size: 0.78rem;
+    font-size: 0.86rem;
   }
 
   .cardLink {
@@ -238,7 +242,7 @@
 
   .serviceBullets {
     order: 5;
-    font-size: 0.9rem;
+    font-size: 0.96rem;
     line-height: 1.5;
   }
 }

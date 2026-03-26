@@ -1,6 +1,7 @@
 // Presentational card for a service offering.
 import Image from "next/image";
 import type { Service } from "../core/types";
+import { formatPence } from "../lib/money";
 import { placeholderImage } from "../media";
 import styles from "./ServiceCard.module.css";
 
@@ -36,7 +37,7 @@ export function ServiceCard({ service, imageAlt, category }: Props) {
         </div>
         <div className={styles.meta}>
           <span>{service.duration_minutes} minutes</span>
-          <span>From £{service.price}</span>
+          <span>From {formatPence(service.price_pence)}</span>
         </div>
       </div>
     </article>

@@ -4,16 +4,16 @@
   justify-content: center;
   border-radius: 999px;
   padding: 0.75rem 1.5rem;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   text-transform: uppercase;
-  letter-spacing: 0.3em;
+  letter-spacing: 0.18em;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .primary {
-  background: var(--color-ink);
+  background: var(--color-accent);
   color: var(--color-cream);
-  border: 1px solid var(--color-ink);
+  border: 1px solid var(--color-accent);
 }
 
 
@@ -25,12 +25,13 @@
 
 @media (hover: hover) {
   .primary:hover {
-    background: #292524;
-    border-color: #292524;
+    background: var(--color-accent-strong);
+    border-color: var(--color-accent-strong);
   }
 
   .ghost:hover {
-    background: var(--color-ink);
-    color: var(--color-cream);
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent-border);
+    color: var(--color-ink);
   }
 }

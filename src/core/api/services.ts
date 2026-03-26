@@ -1,32 +1,16 @@
-// Services API module for fetching service listings.
-import type { Service } from "../types";
+// API helpers for fetching active services from the booking backend.
+import { parseJsonResponse } from "./client";
+import type { Service, ServiceListResponse } from "../types";
 
 export async function getServices(): Promise<Service[]> {
-  const response = await fetch("/services", {
+  const response = await fetch("/api/services", {
     method: "GET",
-    credentials: "include",
     headers: {
       Accept: "application/json",
     },
+    cache: "no-store",
   });
 
-  if (!response.ok) {
-    let detail = "";
-    try {
-      const data = (await response.json()) as { error?: unknown; message?: unknown };
-      detail = String(data.error ?? data.message ?? "");
-    } catch {
-      try {
-        detail = await response.text();
-      } catch {
-        detail = "";
-      }
-    }
-
-    const suffix = detail ? ` - ${detail}` : "";
-    throw new Error(`Failed to fetch services: ${response.status} ${response.statusText}${suffix}`);
-  }
-
-  const data = (await response.json()) as Service[];
-  return data;
+  const payload = await parseJsonResponse<ServiceListResponse>(response);
+  return payload.data;
 }

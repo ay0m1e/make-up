@@ -68,7 +68,7 @@
   right: 0;
   width: 100vw;
   height: 100%;
-  background: #f9f7f3;
+  background: var(--color-sand);
   transform: translateX(100%);
   transition: transform 0.35s ease;
   z-index: 110;
@@ -126,13 +126,14 @@
 
 .menuCta {
   margin-top: 1.5rem;
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-accent);
+  background: var(--color-accent);
   padding: 1rem 1.5rem;
   border-radius: 999px;
   text-transform: uppercase;
-  letter-spacing: 0.25em;
-  font-size: 0.75rem;
-  color: var(--color-ink);
+  letter-spacing: 0.18em;
+  font-size: 0.82rem;
+  color: var(--color-cream);
   text-decoration: none;
   text-align: center;
   width: min(20rem, 100%);
@@ -142,7 +143,7 @@
 .menuCta:focus-visible,
 .menuCloseButton:focus-visible,
 .menuButton:focus-visible {
-  outline: 2px solid rgba(41, 37, 36, 0.5);
+  outline: 2px solid rgba(200, 111, 63, 0.45);
   outline-offset: 3px;
 }
 
