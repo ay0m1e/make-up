@@ -1,11 +1,14 @@
 """Flask CLI commands."""
 from __future__ import annotations
 
+import click
 import sqlalchemy as sa
 from flask import Flask
 
 from backend_app.extensions import db
 from backend_app.models import Service
+from backend_app.services import AdminAuthService
+from backend_app.services.error_handlers import ApiError
 
 
 SAMPLE_SERVICES = (
@@ -54,6 +57,27 @@ SAMPLE_SERVICES = (
 
 def register_cli_commands(app: Flask) -> None:
     """Register custom Flask CLI commands."""
+
+    @app.cli.command("create-admin")
+    @click.option("--email", required=True, help="Admin email address.")
+    @click.option("--password", required=True, help="Plain-text password to hash and store.")
+    @click.option("--name", default=None, help="Optional full name.")
+    def create_admin_command(email: str, password: str, name: str | None) -> None:
+        """Create a single admin user."""
+        try:
+            admin = AdminAuthService().create_admin(
+                email=email,
+                password=password,
+                full_name=name,
+            )
+        except ApiError as error:
+            raise click.ClickException(error.message) from error
+
+        app.logger.info(
+            "create_admin_completed",
+            extra={"admin_id": str(admin.id), "email": admin.email},
+        )
+        print(f"Admin created for {admin.email}.")
 
     @app.cli.command("seed-services")
     def seed_services_command() -> None:

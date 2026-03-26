@@ -3,10 +3,11 @@ from __future__ import annotations
 
 from flask import Flask
 
-from backend_app.api.routes import bookings_bp, health_bp, services_bp
+from backend_app.api.routes import admin_auth_bp, bookings_bp, health_bp, services_bp
 from backend_app.cli import register_cli_commands
 from backend_app.config import get_config_class
 from backend_app.extensions import db, jwt
+from backend_app.services.admin_auth_service import register_jwt_callbacks
 from backend_app.services.error_handlers import register_error_handlers
 from backend_app.services.logging_config import configure_logging
 
@@ -44,10 +45,12 @@ def _validate_required_config(app: Flask) -> None:
 def _register_extensions(app: Flask) -> None:
     db.init_app(app)
     jwt.init_app(app)
+    register_jwt_callbacks(jwt)
 
 
 
 def _register_routes(app: Flask) -> None:
     app.register_blueprint(health_bp)
+    app.register_blueprint(admin_auth_bp)
     app.register_blueprint(bookings_bp)
     app.register_blueprint(services_bp)
