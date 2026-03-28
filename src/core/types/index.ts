@@ -56,3 +56,77 @@ export interface BookingConfirmation {
   deposit_amount_pence: number;
   bank_transfer: BankTransferInstructions;
 }
+
+export interface AdminUser {
+  id: string;
+  email: string;
+  full_name?: string | null;
+}
+
+export interface AdminLoginPayload {
+  email: string;
+  password: string;
+}
+
+export interface AdminLoginResponse {
+  admin: AdminUser;
+}
+
+export interface AdminBooking {
+  id: string;
+  reference_code: string;
+  service: {
+    id?: string | null;
+    name?: string | null;
+  };
+  customer: {
+    name: string;
+    email: string;
+    phone: string;
+  };
+  booking_date: string;
+  start_time: string;
+  end_time: string;
+  quantity: number;
+  amounts: {
+    total_amount_pence: number;
+    deposit_amount_pence: number;
+  };
+  booking_status: string;
+  payment_method: string;
+  payment_status: string;
+  notes?: string | null;
+  created_at?: string | null;
+}
+
+export interface AdminBookingListResponse {
+  data: AdminBooking[];
+  meta?: {
+    page?: number;
+    per_page?: number;
+    total?: number;
+    pages?: number;
+    filters?: {
+      status?: string | null;
+      date_from?: string | null;
+      date_to?: string | null;
+    };
+  };
+}
+
+export interface AdminBookingResponse {
+  data: AdminBooking;
+}
+
+export interface AdminServicePayload {
+  name: string;
+  description?: string | null;
+  price_pence: number;
+  duration_minutes: number;
+  category?: string | null;
+  is_active?: boolean;
+}
+
+export interface AdminServiceResponse {
+  data: Service;
+}

@@ -1,11 +1,13 @@
 // Root layout for the editorial site.
 import "./globals.css";
 import type { ReactNode } from "react";
+import { cookies } from "next/headers";
 import Link from "next/link";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import styles from "./layout.module.css";
 import { MobileMenu } from "../components/MobileMenu";
 import { FooterNav } from "../components/FooterNav";
+import { ADMIN_SESSION_COOKIE } from "../core/auth/auth";
 
 const display = Cormorant_Garamond({
   subsets: ["latin"],
@@ -25,7 +27,10 @@ export const metadata = {
     "Professional makeup, bridal hair styling, and semi-permanent brows.",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
+  const cookieStore = await cookies();
+  const isAdminAuthenticated = Boolean(cookieStore.get(ADMIN_SESSION_COOKIE)?.value);
+
   return (
     <html lang="en">
       <body className={`${display.variable} ${body.variable} ${styles.body}`}>
@@ -48,8 +53,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                 <Link href="/about" className={styles.navLink}>
                   About
                 </Link>
+                {isAdminAuthenticated ? (
+                  <Link href="/admin/bookings" className={`${styles.navLink} ${styles.adminLink}`}>
+                    Admin
+                  </Link>
+                ) : null}
               </nav>
-              <MobileMenu />
+              <MobileMenu isAdminAuthenticated={isAdminAuthenticated} />
               <Link
                 href="/book/service"
                 className={styles.cta}

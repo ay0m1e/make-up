@@ -6,7 +6,11 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import styles from "./MobileMenu.module.css";
 
-export function MobileMenu() {
+type Props = {
+  isAdminAuthenticated?: boolean;
+};
+
+export function MobileMenu({ isAdminAuthenticated = false }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -85,6 +89,15 @@ export function MobileMenu() {
           >
             About
           </Link>
+          {isAdminAuthenticated ? (
+            <Link
+              href="/admin/bookings"
+              className={styles.menuLink}
+              onClick={() => setMenuOpen(false)}
+            >
+              Admin
+            </Link>
+          ) : null}
           <Link
             href="/book/service"
             className={styles.menuCta}
