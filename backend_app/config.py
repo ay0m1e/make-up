@@ -6,6 +6,12 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
+def _split_csv(value: str | None) -> list[str]:
+    if not value:
+        return []
+    return [item.strip() for item in value.split(",") if item.strip()]
+
+
 def _normalise_database_url(url: str | None) -> str | None:
     if not url:
         return None
@@ -29,6 +35,12 @@ class BaseConfig:
     PROPAGATE_EXCEPTIONS = False
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     JWT_TOKEN_LOCATION = ["headers"]
+    CORS_ALLOWED_ORIGINS = _split_csv(
+        os.getenv(
+            "CORS_ALLOWED_ORIGINS",
+            "https://glee.ayodev.co.uk,http://localhost:3000,http://127.0.0.1:3000",
+        )
+    )
     SMTP_HOST = os.getenv("SMTP_HOST", "smtp.resend.com")
     SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
     SMTP_USERNAME = os.getenv("SMTP_USERNAME", "resend")
