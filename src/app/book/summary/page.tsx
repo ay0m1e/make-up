@@ -72,7 +72,9 @@ export default function BookSummaryPage() {
       if (submitError instanceof PublicBookingError) {
         setErrorTitle(submitError.title);
         setError(submitError.message);
-        setSuggestTimeRetry(submitError.status === 409);
+        setSuggestTimeRetry(
+          submitError.status === 409 || submitError.title === "That start time will not work",
+        );
       } else {
         setErrorTitle("We could not complete your booking");
         setError("Please try again in a moment. If the issue continues, contact the studio directly.");

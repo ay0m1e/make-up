@@ -174,9 +174,25 @@
   cursor: pointer;
 }
 
+.slotButton:disabled {
+  cursor: not-allowed;
+}
+
 .slotSelected {
   border-color: var(--color-accent-border);
   background: var(--color-accent-soft);
+}
+
+.slotUnavailable {
+  background: #f7f4ef;
+  color: #8e867f;
+  border-color: rgba(215, 200, 182, 0.8);
+  opacity: 0.8;
+}
+
+.slotUnavailable .slotLabel,
+.slotUnavailable .slotNote {
+  color: #8e867f;
 }
 
 .slotLabel {

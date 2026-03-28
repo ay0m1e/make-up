@@ -14,8 +14,9 @@ export class PublicBookingError extends Error {
 }
 
 async function parseBookingError(response: Response) {
+  let payload: { error?: string; message?: string } | null = null;
   try {
-    await response.json();
+    payload = (await response.json()) as { error?: string; message?: string };
   } catch {
     // Ignore body parsing errors here and fall back to calm public messaging.
   }
@@ -29,6 +30,14 @@ async function parseBookingError(response: Response) {
   }
 
   if (response.status === 400) {
+    if (payload?.error === "invalid_time_range") {
+      return new PublicBookingError(
+        "That start time will not work",
+        "This service needs more time than this slot allows. Please choose an earlier time.",
+        400,
+      );
+    }
+
     return new PublicBookingError(
       "Please review your booking details",
       "Some booking details need attention before we can continue. Please check your information and try again.",
