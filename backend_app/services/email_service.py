@@ -70,6 +70,10 @@ class EmailService:
         self.logger = logger or (current_app.logger if has_app_context() else logging.getLogger(__name__))
 
     def send_booking_received(self, booking: Mapping[str, Any]) -> None:
+        self._send_customer_booking_received(booking)
+        self._send_admin_booking_submitted(booking)
+
+    def _send_customer_booking_received(self, booking: Mapping[str, Any]) -> None:
         try:
             bank_transfer = build_bank_transfer_details(booking["reference_code"], self.config)
             customer = booking["customer"]
@@ -117,6 +121,47 @@ class EmailService:
                 extra={"booking_reference": booking.get("reference_code")},
             )
 
+    def _send_admin_booking_submitted(self, booking: Mapping[str, Any]) -> None:
+        admin_email = self.config.get("ADMIN_NOTIFICATION_EMAIL") or self.config.get("FROM_EMAIL")
+        if not admin_email:
+            self.logger.warning(
+                "admin_booking_email_skipped_missing_recipient",
+                extra={"booking_reference": booking.get("reference_code")},
+            )
+            return
+
+        try:
+            customer = booking["customer"]
+            service = booking["service"]
+            amounts = booking["amounts"]
+
+            body = "\n".join(
+                [
+                    "A new booking has been submitted.",
+                    "",
+                    f"Booking reference: {booking['reference_code']}",
+                    f"Customer name: {customer['name']}",
+                    f"Customer email: {customer['email']}",
+                    f"Customer phone: {customer['phone']}",
+                    f"Service: {service.get('name') or 'Selected service'}",
+                    f"Date: {_format_booking_date(booking['booking_date'])}",
+                    f"Time: {_format_booking_time(booking['start_time'])}",
+                    f"Total amount: {_format_amount_pence(amounts['total_amount_pence'])}",
+                    f"Deposit amount: {_format_amount_pence(amounts['deposit_amount_pence'])}",
+                ]
+            )
+
+            self._send_message(
+                to_email=str(admin_email),
+                subject=f"New booking submitted - {booking['reference_code']}",
+                body=body,
+            )
+        except Exception:
+            self.logger.exception(
+                "admin_booking_notification_failed",
+                extra={"booking_reference": booking.get("reference_code")},
+            )
+
     def send_deposit_confirmed(self, booking: Mapping[str, Any]) -> None:
         try:
             customer = booking["customer"]
@@ -156,7 +201,7 @@ class EmailService:
                 "Hello,",
                 "",
                 "This is a test email from the GLEEMAKEOVERS booking system.",
-                "If you received this message, SMTP delivery is configured correctly.",
+                "If you received this message, email delivery is configured correctly.",
                 "",
                 "GLEEMAKEOVERS",
             ]

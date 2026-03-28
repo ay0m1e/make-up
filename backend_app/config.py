@@ -63,6 +63,7 @@ class BaseConfig:
     EMAIL_API_BASE_URL = os.getenv("EMAIL_API_BASE_URL", "https://api.resend.com/emails")
     EMAIL_API_KEY = os.getenv("EMAIL_API_KEY") or os.getenv("RESEND_API_KEY")
     FROM_EMAIL = os.getenv("FROM_EMAIL")
+    ADMIN_NOTIFICATION_EMAIL = os.getenv("ADMIN_NOTIFICATION_EMAIL") or FROM_EMAIL
     BANK_ACCOUNT_NAME = os.getenv("BANK_ACCOUNT_NAME")
     BANK_SORT_CODE = os.getenv("BANK_SORT_CODE")
     BANK_ACCOUNT_NUMBER = os.getenv("BANK_ACCOUNT_NUMBER")
