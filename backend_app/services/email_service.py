@@ -1,11 +1,12 @@
-"""SMTP email delivery and booking notification helpers."""
+"""HTTP email delivery and booking notification helpers."""
 from __future__ import annotations
 
+import json
 import logging
-import smtplib
 from datetime import date, time
-from email.message import EmailMessage
 from typing import Any, Mapping
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 
 from flask import current_app, has_app_context
 
@@ -53,8 +54,16 @@ def build_bank_transfer_details(
     }
 
 
+class EmailDeliveryError(RuntimeError):
+    """Raised when the email provider API rejects or fails a request."""
+
+    def __init__(self, message: str, *, status_code: int | None = None) -> None:
+        super().__init__(message)
+        self.status_code = status_code
+
+
 class EmailService:
-    """Delivers plain-text booking lifecycle emails over SMTP."""
+    """Delivers plain-text booking lifecycle emails over an HTTP provider."""
 
     def __init__(self, config: Mapping[str, Any] | None = None, logger: logging.Logger | None = None):
         self.config = config or (current_app.config if has_app_context() else {})
@@ -159,47 +168,62 @@ class EmailService:
         )
 
     def _send_message(self, *, to_email: str, subject: str, body: str) -> None:
-        host = self.config.get("SMTP_HOST")
-        port = self.config.get("SMTP_PORT")
-        username = self.config.get("SMTP_USERNAME")
-        password = self.config.get("SMTP_PASSWORD")
+        api_base_url = self.config.get("EMAIL_API_BASE_URL")
+        api_key = self.config.get("EMAIL_API_KEY")
         from_email = self.config.get("FROM_EMAIL")
 
         missing = [
             key
             for key, value in (
-                ("SMTP_HOST", host),
-                ("SMTP_PORT", port),
-                ("SMTP_USERNAME", username),
-                ("SMTP_PASSWORD", password),
+                ("EMAIL_API_BASE_URL", api_base_url),
+                ("EMAIL_API_KEY", api_key),
                 ("FROM_EMAIL", from_email),
             )
             if not value
         ]
         if missing:
-            raise RuntimeError(f"Email settings are not configured: {', '.join(missing)}")
+            raise EmailDeliveryError(
+                f"Email settings are not configured: {', '.join(missing)}",
+            )
 
-        message = EmailMessage()
-        message["From"] = str(from_email)
-        message["To"] = to_email
-        message["Subject"] = subject
-        message.set_content(body)
+        payload = json.dumps(
+            {
+                "from": str(from_email),
+                "to": [to_email],
+                "subject": subject,
+                "text": body,
+            }
+        ).encode("utf-8")
 
-        smtp_port = int(port)
+        request = Request(
+            str(api_base_url),
+            data=payload,
+            method="POST",
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "User-Agent": "gleemakeovers-backend/1.0",
+            },
+        )
 
-        if smtp_port == 465:
-            with smtplib.SMTP_SSL(str(host), smtp_port, timeout=15) as server:
-                server.login(str(username), str(password))
-                server.send_message(message)
-            return
+        try:
+            with urlopen(request, timeout=15) as response:
+                status_code = getattr(response, "status", None) or response.getcode()
+                if status_code < 200 or status_code >= 300:
+                    raise EmailDeliveryError(
+                        f"Email provider returned status {status_code}.",
+                        status_code=status_code,
+                    )
+        except HTTPError as error:
+            try:
+                response_body = error.read().decode("utf-8", errors="replace")
+            except Exception:
+                response_body = ""
 
-        with smtplib.SMTP(str(host), smtp_port, timeout=15) as server:
-            server.ehlo()
-            if server.has_extn("starttls"):
-                server.starttls()
-                server.ehlo()
-            server.login(str(username), str(password))
-            server.send_message(message)
+            message = response_body or f"Email provider returned status {error.code}."
+            raise EmailDeliveryError(message, status_code=error.code) from error
+        except URLError as error:
+            raise EmailDeliveryError(f"Email provider request failed: {error.reason}") from error
 
 
 def _format_amount_pence(value: int) -> str:

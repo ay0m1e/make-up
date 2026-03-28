@@ -3,13 +3,36 @@ import os
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=False)
 
 
 def _split_csv(value: str | None) -> list[str]:
     if not value:
         return []
     return [item.strip() for item in value.split(",") if item.strip()]
+
+
+def _get_runtime_env_name() -> str:
+    return (os.getenv("APP_ENV") or os.getenv("FLASK_ENV") or "development").lower()
+
+
+def _get_cors_origins() -> list[str]:
+    explicit_origins = _split_csv(os.getenv("CORS_ALLOWED_ORIGINS"))
+    if explicit_origins:
+        return explicit_origins
+
+    frontend_origin = os.getenv("FRONTEND_ORIGIN", "").strip()
+    origins: list[str] = [frontend_origin] if frontend_origin else []
+
+    if _get_runtime_env_name() != "production":
+        origins.extend(
+            [
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+            ]
+        )
+
+    return origins
 
 
 def _normalise_database_url(url: str | None) -> str | None:
@@ -35,16 +58,10 @@ class BaseConfig:
     PROPAGATE_EXCEPTIONS = False
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     JWT_TOKEN_LOCATION = ["headers"]
-    CORS_ALLOWED_ORIGINS = _split_csv(
-        os.getenv(
-            "CORS_ALLOWED_ORIGINS",
-            "https://glee.ayodev.co.uk,http://localhost:3000,http://127.0.0.1:3000",
-        )
-    )
-    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.resend.com")
-    SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
-    SMTP_USERNAME = os.getenv("SMTP_USERNAME", "resend")
-    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+    FRONTEND_ORIGIN = os.getenv("FRONTEND_ORIGIN")
+    CORS_ALLOWED_ORIGINS = _get_cors_origins()
+    EMAIL_API_BASE_URL = os.getenv("EMAIL_API_BASE_URL", "https://api.resend.com/emails")
+    EMAIL_API_KEY = os.getenv("EMAIL_API_KEY") or os.getenv("RESEND_API_KEY")
     FROM_EMAIL = os.getenv("FROM_EMAIL")
     BANK_ACCOUNT_NAME = os.getenv("BANK_ACCOUNT_NAME")
     BANK_SORT_CODE = os.getenv("BANK_SORT_CODE")
