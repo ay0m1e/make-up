@@ -55,6 +55,19 @@ def list_services():
     )
 
 
+@services_bp.get("/admin/services")
+@jwt_required()
+def list_admin_services():
+    """Return all services for admin management."""
+    stmt = sa.select(Service).order_by(Service.is_active.desc(), Service.name.asc(), Service.created_at.asc())
+    services = db.session.execute(stmt).scalars().all()
+
+    return _json_response(
+        data=[_serialize_service(service) for service in services],
+        meta={"count": len(services)},
+    )
+
+
 @services_bp.post("/admin/services")
 @jwt_required()
 def create_service():

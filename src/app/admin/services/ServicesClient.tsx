@@ -145,7 +145,11 @@ export function ServicesClient() {
 
     try {
       await deactivateAdminService(serviceId);
-      setServices((current) => current.filter((service) => service.id !== serviceId));
+      setServices((current) =>
+        current.map((service) =>
+          service.id === serviceId ? { ...service, is_active: false } : service,
+        ),
+      );
       if (editingId === serviceId) {
         resetForm();
       }
@@ -279,7 +283,7 @@ export function ServicesClient() {
 
         {!loading && services.length === 0 ? (
           <div className={styles.emptyState}>
-            <p>No active services returned by the API.</p>
+            <p>No services returned by the API.</p>
           </div>
         ) : null}
 
@@ -296,6 +300,13 @@ export function ServicesClient() {
                 <div className={styles.statusRow}>
                   <span className={`${styles.statusPill} ${styles.statusConfirmed}`}>
                     {service.duration_minutes} min
+                  </span>
+                  <span
+                    className={`${styles.statusPill} ${
+                      service.is_active ? styles.statusConfirmed : styles.statusInactive
+                    }`}
+                  >
+                    {service.is_active ? "Active" : "Inactive"}
                   </span>
                 </div>
               </div>
@@ -314,7 +325,7 @@ export function ServicesClient() {
                   type="button"
                   className={styles.secondaryButton}
                   onClick={() => handleDeactivate(service.id)}
-                  disabled={actionId === service.id}
+                  disabled={actionId === service.id || !service.is_active}
                 >
                   {actionId === service.id ? "Saving..." : "Deactivate"}
                 </button>

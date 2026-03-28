@@ -3,35 +3,28 @@ import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { getBackendUrl } from "../../../../lib/env";
 import { ADMIN_SESSION_COOKIE } from "../../../../core/auth/auth";
-
-function unauthorizedResponse() {
-  return NextResponse.json(
-    { error: "authorization_required", message: "Authentication required." },
-    { status: 401 },
-  );
-}
+import {
+  adminUnauthorizedResponse,
+  proxyAdminUpstreamResponse,
+} from "../../../../core/auth/server";
 
 export async function GET() {
   const cookieStore = await cookies();
-  if (!cookieStore.get(ADMIN_SESSION_COOKIE)?.value) {
-    return unauthorizedResponse();
+  const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+  if (!token) {
+    return adminUnauthorizedResponse();
   }
 
   try {
-    const upstream = await fetch(getBackendUrl("/api/services"), {
+    const upstream = await fetch(getBackendUrl("/api/admin/services"), {
       headers: {
         Accept: "application/json",
+        Authorization: `Bearer ${token}`,
       },
       cache: "no-store",
     });
 
-    const body = await upstream.text();
-    return new NextResponse(body, {
-      status: upstream.status,
-      headers: {
-        "Content-Type": upstream.headers.get("content-type") || "application/json",
-      },
-    });
+    return proxyAdminUpstreamResponse(upstream);
   } catch (error) {
     return NextResponse.json(
       {
@@ -47,7 +40,7 @@ export async function POST(request: NextRequest) {
   const cookieStore = await cookies();
   const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
   if (!token) {
-    return unauthorizedResponse();
+    return adminUnauthorizedResponse();
   }
 
   try {
@@ -63,13 +56,7 @@ export async function POST(request: NextRequest) {
       cache: "no-store",
     });
 
-    const responseBody = await upstream.text();
-    return new NextResponse(responseBody, {
-      status: upstream.status,
-      headers: {
-        "Content-Type": upstream.headers.get("content-type") || "application/json",
-      },
-    });
+    return proxyAdminUpstreamResponse(upstream);
   } catch (error) {
     return NextResponse.json(
       {

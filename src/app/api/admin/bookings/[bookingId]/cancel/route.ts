@@ -3,13 +3,10 @@ import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { getBackendUrl } from "../../../../../../lib/env";
 import { ADMIN_SESSION_COOKIE } from "../../../../../../core/auth/auth";
-
-function unauthorizedResponse() {
-  return NextResponse.json(
-    { error: "authorization_required", message: "Authentication required." },
-    { status: 401 },
-  );
-}
+import {
+  adminUnauthorizedResponse,
+  proxyAdminUpstreamResponse,
+} from "../../../../../../core/auth/server";
 
 export async function PATCH(
   _request: Request,
@@ -18,7 +15,7 @@ export async function PATCH(
   const cookieStore = await cookies();
   const token = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
   if (!token) {
-    return unauthorizedResponse();
+    return adminUnauthorizedResponse();
   }
 
   const { bookingId } = await context.params;
@@ -36,13 +33,7 @@ export async function PATCH(
       },
     );
 
-    const body = await upstream.text();
-    return new NextResponse(body, {
-      status: upstream.status,
-      headers: {
-        "Content-Type": upstream.headers.get("content-type") || "application/json",
-      },
-    });
+    return proxyAdminUpstreamResponse(upstream);
   } catch (error) {
     return NextResponse.json(
       {

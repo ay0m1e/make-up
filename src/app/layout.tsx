@@ -59,7 +59,14 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
                   </Link>
                 ) : null}
               </nav>
-              <MobileMenu isAdminAuthenticated={isAdminAuthenticated} />
+              <div className={styles.mobileControls}>
+                {isAdminAuthenticated ? (
+                  <Link href="/admin/bookings" className={styles.mobileAdminLink}>
+                    Admin
+                  </Link>
+                ) : null}
+                <MobileMenu isAdminAuthenticated={isAdminAuthenticated} />
+              </div>
               <Link
                 href="/book/service"
                 className={styles.cta}

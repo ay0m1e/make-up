@@ -12,8 +12,8 @@ export default async function AdminLoginPage() {
 
   return (
     <main className={styles.page}>
-      <div className={styles.shell}>
-        <header className={styles.header}>
+      <div className={`${styles.shell} ${styles.loginShell}`}>
+        <header className={`${styles.header} ${styles.loginHeader}`}>
           <p className={styles.eyebrow}>Admin</p>
           <h1>Admin login</h1>
           <p className={styles.subtext}>
