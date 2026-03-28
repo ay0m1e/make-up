@@ -122,8 +122,8 @@ class EmailService:
             )
 
     def _send_admin_booking_submitted(self, booking: Mapping[str, Any]) -> None:
-        admin_email = self.config.get("ADMIN_NOTIFICATION_EMAIL") or self.config.get("FROM_EMAIL")
-        if not admin_email:
+        admin_emails = self.config.get("ADMIN_NOTIFICATION_EMAILS") or []
+        if not admin_emails:
             self.logger.warning(
                 "admin_booking_email_skipped_missing_recipient",
                 extra={"booking_reference": booking.get("reference_code")},
@@ -152,7 +152,7 @@ class EmailService:
             )
 
             self._send_message(
-                to_email=str(admin_email),
+                to_email=", ".join(str(email) for email in admin_emails),
                 subject=f"New booking submitted - {booking['reference_code']}",
                 body=body,
             )
@@ -216,6 +216,7 @@ class EmailService:
         api_base_url = self.config.get("EMAIL_API_BASE_URL")
         api_key = self.config.get("EMAIL_API_KEY")
         from_email = self.config.get("FROM_EMAIL")
+        recipients = [email.strip() for email in str(to_email).split(",") if email.strip()]
 
         missing = [
             key
@@ -223,6 +224,7 @@ class EmailService:
                 ("EMAIL_API_BASE_URL", api_base_url),
                 ("EMAIL_API_KEY", api_key),
                 ("FROM_EMAIL", from_email),
+                ("to_email", recipients),
             )
             if not value
         ]
@@ -234,7 +236,7 @@ class EmailService:
         payload = json.dumps(
             {
                 "from": str(from_email),
-                "to": [to_email],
+                "to": recipients,
                 "subject": subject,
                 "text": body,
             }
