@@ -342,12 +342,12 @@ export function CalendarClient() {
                             </p>
                             <div className={styles.calendarEventStatuses}>
                               <span
-                                className={`${styles.statusPill} ${getStatusClass(booking.booking_status)}`}
+                                className={`${styles.statusPill} ${styles.calendarStatusPill} ${getStatusClass(booking.booking_status)}`}
                               >
                                 {booking.booking_status.replaceAll("_", " ")}
                               </span>
                               <span
-                                className={`${styles.statusPill} ${getStatusClass(booking.payment_status)}`}
+                                className={`${styles.statusPill} ${styles.calendarStatusPill} ${getStatusClass(booking.payment_status)}`}
                               >
                                 {booking.payment_status.replaceAll("_", " ")}
                               </span>

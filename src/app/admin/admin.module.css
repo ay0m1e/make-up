@@ -504,9 +504,19 @@
 }
 
 .calendarEventStatuses {
-  display: flex;
+  display: grid;
   gap: 0.45rem;
-  flex-wrap: wrap;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.calendarStatusPill {
+  width: 100%;
+  min-width: 0;
+  justify-content: center;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 
 .calendarDayEmpty {
