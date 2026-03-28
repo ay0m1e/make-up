@@ -238,7 +238,7 @@ export function CalendarClient() {
   return (
     <div className={styles.shell}>
       <div className={styles.toolbar}>
-        <div>
+        <div className={styles.calendarSummary}>
           <p className={styles.eyebrow}>Calendar</p>
           <p className={styles.count}>
             {loading
@@ -250,23 +250,28 @@ export function CalendarClient() {
         </div>
 
         <div className={styles.calendarControls}>
-          <button
-            type="button"
-            className={styles.secondaryButton}
-            onClick={() => setWeekOffset((current) => current - 1)}
-            disabled={weekOffset <= minWeekOffset}
-          >
-            Previous week
-          </button>
-          <div className={styles.calendarRange}>{formatWeekRange(weekStart, weekEnd)}</div>
-          <button
-            type="button"
-            className={styles.primaryButton}
-            onClick={() => setWeekOffset((current) => current + 1)}
-            disabled={weekOffset >= maxWeekOffset}
-          >
-            Next week
-          </button>
+          <div className={styles.calendarRangeWrap}>
+            <p className={styles.calendarRangeLabel}>Week view</p>
+            <div className={styles.calendarRange}>{formatWeekRange(weekStart, weekEnd)}</div>
+          </div>
+          <div className={styles.calendarNavButtons}>
+            <button
+              type="button"
+              className={styles.secondaryButton}
+              onClick={() => setWeekOffset((current) => current - 1)}
+              disabled={weekOffset <= minWeekOffset}
+            >
+              Previous week
+            </button>
+            <button
+              type="button"
+              className={styles.primaryButton}
+              onClick={() => setWeekOffset((current) => current + 1)}
+              disabled={weekOffset >= maxWeekOffset}
+            >
+              Next week
+            </button>
+          </div>
         </div>
       </div>
 
@@ -302,60 +307,62 @@ export function CalendarClient() {
             </div>
           ) : null}
 
-          <section className={styles.calendarGrid} aria-label="Upcoming bookings calendar">
-            {columns.map((column) => {
-              const isToday = column.key === todayKey;
-              const bookingCount = column.bookings.length;
+          <div className={styles.calendarGridWrap}>
+            <section className={styles.calendarGrid} aria-label="Upcoming bookings calendar">
+              {columns.map((column) => {
+                const isToday = column.key === todayKey;
+                const bookingCount = column.bookings.length;
 
-              return (
-                <article
-                  key={column.key}
-                  className={`${styles.calendarDay} ${isToday ? styles.calendarDayToday : ""}`}
-                >
-                  <div className={styles.calendarDayHeader}>
-                    <p className={styles.calendarDayLabel}>{DAY_LABEL_FORMATTER.format(column.date)}</p>
-                    <p className={styles.calendarDayMeta}>
-                      {bookingCount === 0
-                        ? "No bookings"
-                        : `${bookingCount} booking${bookingCount === 1 ? "" : "s"}`}
-                    </p>
-                  </div>
-
-                  {bookingCount > 0 ? (
-                    <div className={styles.calendarEventList}>
-                      {column.bookings.map((booking) => (
-                        <div key={booking.id} className={styles.calendarEvent}>
-                          <div className={styles.calendarEventTop}>
-                            <span className={styles.calendarEventTime}>
-                              {formatBookingTime(booking.start_time)}
-                            </span>
-                          </div>
-                          <p className={styles.calendarEventName}>{booking.customer.name}</p>
-                          <p className={styles.calendarEventMeta}>
-                            {booking.service.name ?? "Unknown service"}
-                          </p>
-                          <div className={styles.calendarEventStatuses}>
-                            <span
-                              className={`${styles.statusPill} ${getStatusClass(booking.booking_status)}`}
-                            >
-                              {booking.booking_status.replaceAll("_", " ")}
-                            </span>
-                            <span
-                              className={`${styles.statusPill} ${getStatusClass(booking.payment_status)}`}
-                            >
-                              {booking.payment_status.replaceAll("_", " ")}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+                return (
+                  <article
+                    key={column.key}
+                    className={`${styles.calendarDay} ${isToday ? styles.calendarDayToday : ""}`}
+                  >
+                    <div className={styles.calendarDayHeader}>
+                      <p className={styles.calendarDayLabel}>{DAY_LABEL_FORMATTER.format(column.date)}</p>
+                      <p className={styles.calendarDayMeta}>
+                        {bookingCount === 0
+                          ? "No bookings"
+                          : `${bookingCount} booking${bookingCount === 1 ? "" : "s"}`}
+                      </p>
                     </div>
-                  ) : (
-                    <p className={styles.calendarEmpty}>Free for the day.</p>
-                  )}
-                </article>
-              );
-            })}
-          </section>
+
+                    {bookingCount > 0 ? (
+                      <div className={styles.calendarEventList}>
+                        {column.bookings.map((booking) => (
+                          <div key={booking.id} className={styles.calendarEvent}>
+                            <div className={styles.calendarEventTop}>
+                              <span className={styles.calendarEventTime}>
+                                {formatBookingTime(booking.start_time)}
+                              </span>
+                            </div>
+                            <p className={styles.calendarEventName}>{booking.customer.name}</p>
+                            <p className={styles.calendarEventMeta}>
+                              {booking.service.name ?? "Unknown service"}
+                            </p>
+                            <div className={styles.calendarEventStatuses}>
+                              <span
+                                className={`${styles.statusPill} ${getStatusClass(booking.booking_status)}`}
+                              >
+                                {booking.booking_status.replaceAll("_", " ")}
+                              </span>
+                              <span
+                                className={`${styles.statusPill} ${getStatusClass(booking.payment_status)}`}
+                              >
+                                {booking.payment_status.replaceAll("_", " ")}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className={styles.calendarDayEmpty}>Free for the day.</p>
+                    )}
+                  </article>
+                );
+              })}
+            </section>
+          </div>
         </>
       ) : null}
     </div>

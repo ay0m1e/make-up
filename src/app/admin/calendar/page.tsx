@@ -12,7 +12,7 @@ export default async function AdminCalendarPage() {
   }
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${styles.calendarPage}`}>
       <div className={styles.shell}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>Admin</p>

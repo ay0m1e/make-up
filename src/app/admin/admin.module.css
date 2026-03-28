@@ -5,6 +5,10 @@
   padding: clamp(2.75rem, 5vw, 4rem) 1rem 4.5rem;
 }
 
+.calendarPage {
+  max-width: 110rem;
+}
+
 .shell {
   display: grid;
   gap: clamp(1.5rem, 3vw, 2.5rem);
@@ -348,9 +352,29 @@
 
 .calendarControls {
   display: flex;
-  align-items: center;
-  gap: 0.85rem;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 1rem;
   flex-wrap: wrap;
+}
+
+.calendarSummary {
+  display: grid;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.calendarRangeWrap {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.calendarRangeLabel {
+  margin: 0;
+  color: #6b625c;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
 .calendarRange {
@@ -362,23 +386,39 @@
   border-radius: 999px;
   background: #fcfaf7;
   color: var(--color-ink);
-  padding: 0.85rem 1.1rem;
+  padding: 0.85rem 1.25rem;
+  min-width: 15rem;
   font-size: 0.96rem;
   text-align: center;
+}
+
+.calendarNavButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.calendarGridWrap {
+  min-width: 0;
 }
 
 .calendarGrid {
   display: grid;
   gap: 1rem;
+  align-items: stretch;
 }
 
 .calendarDay {
   display: grid;
+  grid-template-rows: auto 1fr;
   gap: 1rem;
   border: 1px solid var(--color-border);
   border-radius: 1.35rem;
   background: var(--color-white);
   padding: 1rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .calendarDayToday {
@@ -391,6 +431,8 @@
   gap: 0.35rem;
   padding-bottom: 0.9rem;
   border-bottom: 1px solid rgba(231, 229, 228, 0.85);
+  min-width: 0;
+  align-content: start;
 }
 
 .calendarDayLabel {
@@ -409,6 +451,8 @@
 .calendarEventList {
   display: grid;
   gap: 0.85rem;
+  align-content: start;
+  min-width: 0;
 }
 
 .calendarEvent {
@@ -417,7 +461,9 @@
   border: 1px solid rgba(231, 229, 228, 0.9);
   border-radius: 1rem;
   background: #fcfaf7;
-  padding: 0.9rem;
+  padding: 0.95rem;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .calendarEventTop {
@@ -432,30 +478,47 @@
   font-size: 0.8rem;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  line-height: 1.4;
 }
 
 .calendarEventName,
 .calendarEventMeta,
-.calendarEmpty {
+.calendarEmpty,
+.calendarDayEmpty {
   margin: 0;
 }
 
 .calendarEventName {
   color: var(--color-ink);
   font-weight: 600;
-  line-height: 1.45;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .calendarEventMeta,
-.calendarEmpty {
+.calendarEmpty,
+.calendarDayEmpty {
   color: var(--color-ink-soft);
-  line-height: 1.6;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
 }
 
 .calendarEventStatuses {
   display: flex;
   gap: 0.45rem;
   flex-wrap: wrap;
+}
+
+.calendarDayEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border: 1px dashed rgba(231, 229, 228, 0.95);
+  border-radius: 1rem;
+  background: #fcfaf7;
+  min-height: 8.5rem;
+  padding: 1rem;
 }
 
 @media (min-width: 640px) {
@@ -480,7 +543,9 @@
   }
 
   .calendarControls > *,
-  .calendarControls > button {
+  .calendarNavButtons,
+  .calendarNavButtons > button,
+  .calendarRange {
     width: 100%;
   }
 }
@@ -496,17 +561,32 @@
     padding-inline: 3rem;
   }
 
+  .calendarControls {
+    flex-wrap: nowrap;
+  }
+
+  .calendarGridWrap {
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+  }
+
   .calendarGrid {
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    align-items: start;
+    grid-template-columns: repeat(7, minmax(10.5rem, 1fr));
+    min-width: 75rem;
+    align-items: stretch;
   }
 
   .calendarDay {
-    min-height: 17rem;
-    align-content: start;
+    min-height: 20rem;
   }
 
   .servicesLayout {
     grid-template-columns: minmax(0, 25rem) minmax(0, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .calendarGrid {
+    min-width: 0;
   }
 }
