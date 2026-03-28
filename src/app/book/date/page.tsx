@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { getBookingDraft, updateBookingDraft } from "../../../core/booking/store";
+import { getBookServicePath } from "../../../lib/service-categories";
 import { formatPence } from "../../../lib/money";
 import styles from "../flow.module.css";
 
@@ -13,17 +14,19 @@ export default function BookDatePage() {
   const [bookingDate, setBookingDate] = useState("");
   const [serviceName, setServiceName] = useState("");
   const [servicePrice, setServicePrice] = useState<number | null>(null);
+  const [serviceSelectionHref, setServiceSelectionHref] = useState("/services");
 
   useEffect(() => {
     const draft = getBookingDraft();
     if (!draft.service) {
-      router.replace("/book/service");
+      router.replace("/services");
       return;
     }
 
     setBookingDate(draft.booking_date ?? "");
     setServiceName(draft.service.name);
     setServicePrice(draft.service.price_pence);
+    setServiceSelectionHref(getBookServicePath(draft.service));
   }, [router]);
 
   const minDate = useMemo(() => new Date().toISOString().slice(0, 10), []);
@@ -71,7 +74,7 @@ export default function BookDatePage() {
             </div>
 
             <div className={styles.actions}>
-              <Link href="/book/service" className={styles.linkButton}>
+              <Link href={serviceSelectionHref} className={styles.linkButton}>
                 Back
               </Link>
               <button type="submit" className={styles.primaryButton}>

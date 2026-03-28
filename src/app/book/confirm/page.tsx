@@ -30,23 +30,23 @@ export default function BookConfirmPage() {
 
   function handleStartAnotherBooking() {
     clearBookingDraft();
-    router.push("/book/service");
+    router.push("/services");
   }
 
   return (
     <main className={styles.page}>
       <div className={`${styles.card} ${styles.confirmCard}`}>
-        <header className={styles.header}>
+        <header className={`${styles.header} ${styles.confirmHeader}`}>
           <p className={styles.eyebrow}>Booking created</p>
           <h1>Deposit instructions</h1>
-          <p className={styles.subtext}>
+          <p className={`${styles.subtext} ${styles.confirmLead}`}>
             Your booking is now pending. Use the details below to send the deposit and include
             your booking reference as the transfer reference.
           </p>
         </header>
 
-        <section className={styles.summaryGrid}>
-          <div className={styles.card}>
+        <section className={`${styles.summaryGrid} ${styles.confirmGrid}`}>
+          <div className={`${styles.card} ${styles.confirmPanel}`}>
             <p className={styles.label}>Booking summary</p>
             <div className={styles.summaryList}>
               <div className={styles.summaryRow}>
@@ -60,12 +60,30 @@ export default function BookConfirmPage() {
                 <span className={styles.summaryValue}>{draft.service.name}</span>
               </div>
               <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Booking status</span>
+                <span className={styles.summaryValue}>
+                  {draft.confirmation.booking_status.replaceAll("_", " ")}
+                </span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Payment status</span>
+                <span className={styles.summaryValue}>
+                  {draft.confirmation.payment_status.replaceAll("_", " ")}
+                </span>
+              </div>
+              <div className={styles.summaryRow}>
                 <span className={styles.summaryKey}>Date</span>
                 <span className={styles.summaryValue}>{formatBookingDate(draft.booking_date)}</span>
               </div>
               <div className={styles.summaryRow}>
                 <span className={styles.summaryKey}>Time</span>
                 <span className={styles.summaryValue}>{formatBookingTime(draft.start_time)}</span>
+              </div>
+              <div className={styles.summaryRow}>
+                <span className={styles.summaryKey}>Total amount</span>
+                <span className={styles.summaryValue}>
+                  {formatPence(draft.confirmation.total_amount_pence)}
+                </span>
               </div>
               <div className={styles.summaryRow}>
                 <span className={styles.summaryKey}>Deposit required</span>
@@ -76,21 +94,27 @@ export default function BookConfirmPage() {
             </div>
           </div>
 
-          <div className={styles.bankGrid}>
-            <div className={styles.bankItem}>
-              <p className={styles.bankLabel}>Account name</p>
-              <p className={styles.bankValue}>{draft.confirmation.bank_transfer.account_name}</p>
-            </div>
-            <div className={styles.bankItem}>
-              <p className={styles.bankLabel}>Sort code</p>
-              <p className={styles.bankValue}>{draft.confirmation.bank_transfer.sort_code}</p>
-            </div>
-            <div className={styles.bankItem}>
-              <p className={styles.bankLabel}>Account number</p>
-              <p className={styles.bankValue}>{draft.confirmation.bank_transfer.account_number}</p>
-            </div>
-            <div className={styles.instructionBox}>
-              <p>{draft.confirmation.bank_transfer.instructions}</p>
+          <div className={`${styles.card} ${styles.cardMuted} ${styles.confirmPanel}`}>
+            <p className={styles.label}>Transfer details</p>
+            <div className={styles.bankGrid}>
+              <div className={styles.bankItem}>
+                <p className={styles.bankLabel}>Account name</p>
+                <p className={styles.bankValue}>{draft.confirmation.bank_transfer.account_name}</p>
+              </div>
+              <div className={styles.bankItem}>
+                <p className={styles.bankLabel}>Sort code</p>
+                <p className={styles.bankValue}>{draft.confirmation.bank_transfer.sort_code}</p>
+              </div>
+              <div className={styles.bankItem}>
+                <p className={styles.bankLabel}>Account number</p>
+                <p className={styles.bankValue}>{draft.confirmation.bank_transfer.account_number}</p>
+              </div>
+              <div className={styles.instructionBox}>
+                <p className={styles.bankLabel}>Transfer note</p>
+                <p className={styles.instructionText}>
+                  {draft.confirmation.bank_transfer.instructions}
+                </p>
+              </div>
             </div>
           </div>
         </section>

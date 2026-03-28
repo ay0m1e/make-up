@@ -12,6 +12,14 @@ import type {
   ServiceListResponse,
 } from "../types";
 
+type GetAdminBookingsOptions = {
+  status?: string;
+  date_from?: string;
+  date_to?: string;
+  page?: number;
+  per_page?: number;
+};
+
 export async function adminLogin(payload: AdminLoginPayload): Promise<AdminLoginResponse> {
   const response = await fetch("/api/admin/login", {
     method: "POST",
@@ -25,8 +33,19 @@ export async function adminLogin(payload: AdminLoginPayload): Promise<AdminLogin
   return parseJsonResponse<AdminLoginResponse>(response);
 }
 
-export async function getAdminBookings(): Promise<AdminBooking[]> {
-  const response = await fetch("/api/admin/bookings", {
+export async function getAdminBookings(
+  options: GetAdminBookingsOptions = {},
+): Promise<AdminBooking[]> {
+  const searchParams = new URLSearchParams();
+
+  Object.entries(options).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== "") {
+      searchParams.set(key, String(value));
+    }
+  });
+
+  const query = searchParams.toString();
+  const response = await fetch(`/api/admin/bookings${query ? `?${query}` : ""}`, {
     method: "GET",
     headers: {
       Accept: "application/json",

@@ -47,19 +47,17 @@
   gap: 1.25rem;
 }
 
+.categoryEyebrow {
+  margin: 0;
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: #7b736d;
+}
+
 .serviceDescriptor {
   font-size: 1.12rem;
   color: #3f3a35;
-  line-height: 1.6;
-}
-
-.serviceBullets {
-  margin: 0;
-  padding-left: 1.2rem;
-  display: grid;
-  gap: 0.35rem;
-  color: #4b433d;
-  font-size: 1rem;
   line-height: 1.6;
 }
 
@@ -68,34 +66,14 @@
   color: var(--color-ink);
 }
 
-.cardMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  font-size: 0.88rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: #6b625c;
-}
-
-.cardPrice {
-  font-weight: 600;
-  color: var(--color-accent-strong);
-}
-
-.cardDuration {
-  font-weight: 500;
-  color: #5f5852;
-}
-
 .cardLink {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: fit-content;
   border: 1px solid var(--color-accent-border);
   background: var(--color-accent-soft);
-  padding: 0.75rem 1.5rem;
+  padding: 0.85rem 1.5rem;
   border-radius: 999px;
   font-size: 0.82rem;
   text-transform: uppercase;
@@ -126,62 +104,14 @@
   object-fit: cover;
 }
 
-.reviewsWrap {
-  margin-top: 4rem;
-}
-
-.reviewActions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
-  margin-top: 0.75rem;
-}
-
-.reviewLink {
-  display: inline-flex;
-  font-size: 0.96rem;
-  color: var(--color-ink);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(200, 111, 63, 0.45);
-  padding-bottom: 0.2rem;
-}
-
-.reviewCta {
-  border: 1px solid var(--color-accent-border);
-  background: var(--color-accent-soft);
-  padding: 0.7rem 1.4rem;
-  border-radius: 999px;
-  font-size: 0.82rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--color-accent-strong);
-  text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  width: 100%;
-  text-align: center;
-}
-
 @media (min-width: 1024px) {
   .page {
     padding: var(--space-section) 3rem;
   }
 
-  .cardLink {
-    width: fit-content;
-  }
-
   .serviceContent {
     grid-template-columns: 1fr 1fr;
     display: grid;
-  }
-
-  .reviewsWrap {
-    margin-top: 4.5rem;
-  }
-
-  .reviewCta {
-    width: fit-content;
   }
 
   .serviceContentReverse {
@@ -192,14 +122,6 @@
     direction: ltr;
   }
 
-}
-
-@media (hover: hover) {
-  .reviewCta:hover {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: var(--color-cream);
-  }
 }
 
 @media (max-width: 768px) {
@@ -230,19 +152,9 @@
     font-size: 1rem;
   }
 
-  .cardMeta {
-    order: 3;
-    font-size: 0.86rem;
-  }
-
   .cardLink {
-    order: 4;
+    order: 3;
     margin-top: 0.25rem;
-  }
-
-  .serviceBullets {
-    order: 5;
-    font-size: 0.96rem;
-    line-height: 1.5;
+    width: 100%;
   }
 }

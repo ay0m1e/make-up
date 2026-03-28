@@ -1,0 +1,218 @@
+"""SMTP email delivery and booking notification helpers."""
+from __future__ import annotations
+
+import logging
+import smtplib
+from datetime import date, time
+from email.message import EmailMessage
+from typing import Any, Mapping
+
+from flask import current_app, has_app_context
+
+from backend_app.services.error_handlers import ApiError
+
+
+def build_bank_transfer_details(
+    booking_reference_code: str,
+    config: Mapping[str, Any] | None = None,
+) -> dict[str, str]:
+    config_map = config or current_app.config
+    account_name = config_map.get("BANK_ACCOUNT_NAME")
+    sort_code = config_map.get("BANK_SORT_CODE")
+    account_number = config_map.get("BANK_ACCOUNT_NUMBER")
+    reference_prefix = config_map.get("BANK_REFERENCE_PREFIX")
+
+    missing = [
+        key
+        for key, value in (
+            ("BANK_ACCOUNT_NAME", account_name),
+            ("BANK_SORT_CODE", sort_code),
+            ("BANK_ACCOUNT_NUMBER", account_number),
+            ("BANK_REFERENCE_PREFIX", reference_prefix),
+        )
+        if not value
+    ]
+    if missing:
+        raise ApiError(
+            message="Bank transfer settings are not configured.",
+            status_code=500,
+            code="bank_transfer_config_missing",
+            details={"missing": missing},
+        )
+
+    instructions = (
+        "Transfer the deposit to the bank account above and use a payment reference "
+        f"starting with {reference_prefix}. Include booking code {booking_reference_code}."
+    )
+
+    return {
+        "account_name": str(account_name),
+        "sort_code": str(sort_code),
+        "account_number": str(account_number),
+        "instructions": instructions,
+    }
+
+
+class EmailService:
+    """Delivers plain-text booking lifecycle emails over SMTP."""
+
+    def __init__(self, config: Mapping[str, Any] | None = None, logger: logging.Logger | None = None):
+        self.config = config or (current_app.config if has_app_context() else {})
+        self.logger = logger or (current_app.logger if has_app_context() else logging.getLogger(__name__))
+
+    def send_booking_received(self, booking: Mapping[str, Any]) -> None:
+        try:
+            bank_transfer = build_bank_transfer_details(booking["reference_code"], self.config)
+            customer = booking["customer"]
+            service = booking["service"]
+            amounts = booking["amounts"]
+
+            body = "\n".join(
+                [
+                    f"Hello {customer['name']},",
+                    "",
+                    "We have received your booking request.",
+                    "",
+                    f"Service: {service.get('name') or 'Selected service'}",
+                    f"Date: {_format_booking_date(booking['booking_date'])}",
+                    f"Time: {_format_booking_time(booking['start_time'])}",
+                    f"Total amount: {_format_amount_pence(amounts['total_amount_pence'])}",
+                    f"Deposit amount: {_format_amount_pence(amounts['deposit_amount_pence'])}",
+                    f"Booking reference: {booking['reference_code']}",
+                    "",
+                    "Please send your deposit using the bank details below:",
+                    f"Account name: {bank_transfer['account_name']}",
+                    f"Sort code: {bank_transfer['sort_code']}",
+                    f"Account number: {bank_transfer['account_number']}",
+                    "",
+                    (
+                        "When making the transfer, please use your booking reference "
+                        f"{booking['reference_code']} as the payment reference."
+                    ),
+                    bank_transfer["instructions"],
+                    "",
+                    "Your booking will remain pending until the deposit has been confirmed.",
+                    "",
+                    "GLEEMAKEOVERS",
+                ]
+            )
+
+            self._send_message(
+                to_email=customer["email"],
+                subject=f"Booking received - {booking['reference_code']}",
+                body=body,
+            )
+        except Exception:
+            self.logger.exception(
+                "booking_received_email_failed",
+                extra={"booking_reference": booking.get("reference_code")},
+            )
+
+    def send_deposit_confirmed(self, booking: Mapping[str, Any]) -> None:
+        try:
+            customer = booking["customer"]
+            service = booking["service"]
+
+            body = "\n".join(
+                [
+                    f"Hello {customer['name']},",
+                    "",
+                    "Your deposit has been confirmed and your booking is now secured.",
+                    "",
+                    f"Booking reference: {booking['reference_code']}",
+                    f"Service: {service.get('name') or 'Selected service'}",
+                    f"Date: {_format_booking_date(booking['booking_date'])}",
+                    f"Time: {_format_booking_time(booking['start_time'])}",
+                    "",
+                    "Thank you. We look forward to your appointment.",
+                    "",
+                    "GLEEMAKEOVERS",
+                ]
+            )
+
+            self._send_message(
+                to_email=customer["email"],
+                subject=f"Deposit confirmed - {booking['reference_code']}",
+                body=body,
+            )
+        except Exception:
+            self.logger.exception(
+                "deposit_confirmed_email_failed",
+                extra={"booking_reference": booking.get("reference_code")},
+            )
+
+    def send_test_email(self, to_email: str) -> None:
+        body = "\n".join(
+            [
+                "Hello,",
+                "",
+                "This is a test email from the GLEEMAKEOVERS booking system.",
+                "If you received this message, SMTP delivery is configured correctly.",
+                "",
+                "GLEEMAKEOVERS",
+            ]
+        )
+        self._send_message(
+            to_email=to_email,
+            subject="GLEEMAKEOVERS email test",
+            body=body,
+        )
+
+    def _send_message(self, *, to_email: str, subject: str, body: str) -> None:
+        host = self.config.get("SMTP_HOST")
+        port = self.config.get("SMTP_PORT")
+        username = self.config.get("SMTP_USERNAME")
+        password = self.config.get("SMTP_PASSWORD")
+        from_email = self.config.get("FROM_EMAIL")
+
+        missing = [
+            key
+            for key, value in (
+                ("SMTP_HOST", host),
+                ("SMTP_PORT", port),
+                ("SMTP_USERNAME", username),
+                ("SMTP_PASSWORD", password),
+                ("FROM_EMAIL", from_email),
+            )
+            if not value
+        ]
+        if missing:
+            raise RuntimeError(f"Email settings are not configured: {', '.join(missing)}")
+
+        message = EmailMessage()
+        message["From"] = str(from_email)
+        message["To"] = to_email
+        message["Subject"] = subject
+        message.set_content(body)
+
+        smtp_port = int(port)
+
+        if smtp_port == 465:
+            with smtplib.SMTP_SSL(str(host), smtp_port, timeout=15) as server:
+                server.login(str(username), str(password))
+                server.send_message(message)
+            return
+
+        with smtplib.SMTP(str(host), smtp_port, timeout=15) as server:
+            server.ehlo()
+            if server.has_extn("starttls"):
+                server.starttls()
+                server.ehlo()
+            server.login(str(username), str(password))
+            server.send_message(message)
+
+
+def _format_amount_pence(value: int) -> str:
+    pounds = value / 100
+    if pounds.is_integer():
+        return f"£{int(pounds)}"
+    return f"£{pounds:.2f}"
+
+
+def _format_booking_date(value: str) -> str:
+    return date.fromisoformat(value).strftime("%d %B %Y")
+
+
+def _format_booking_time(value: str) -> str:
+    parsed = time.fromisoformat(value)
+    return parsed.strftime("%I:%M %p").lstrip("0")

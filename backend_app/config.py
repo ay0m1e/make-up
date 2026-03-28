@@ -29,6 +29,11 @@ class BaseConfig:
     PROPAGATE_EXCEPTIONS = False
     LOG_LEVEL = os.getenv("LOG_LEVEL", "INFO")
     JWT_TOKEN_LOCATION = ["headers"]
+    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.resend.com")
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
+    SMTP_USERNAME = os.getenv("SMTP_USERNAME", "resend")
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+    FROM_EMAIL = os.getenv("FROM_EMAIL")
     BANK_ACCOUNT_NAME = os.getenv("BANK_ACCOUNT_NAME")
     BANK_SORT_CODE = os.getenv("BANK_SORT_CODE")
     BANK_ACCOUNT_NUMBER = os.getenv("BANK_ACCOUNT_NUMBER")

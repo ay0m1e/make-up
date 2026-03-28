@@ -9,7 +9,7 @@ const links = [
   { href: "/services", label: "Services" },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
-  { href: "/book/service", label: "Book" },
+  { href: "/services", label: "Book" },
 ];
 
 type Props = {
@@ -35,7 +35,7 @@ export function FooterNav({ className, linkClassName }: Props) {
         const isCurrent = href === current;
         return (
           <Link
-            key={link.href}
+            key={`${link.label}-${link.href}`}
             href={link.href}
             className={linkClassName}
             onClick={(event) => {

@@ -1,25 +1,6 @@
 .card {
   display: grid;
-  gap: 1rem;
-}
-
-.imageWrap {
-  position: relative;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 1.25rem;
-  background: #e7e5e4;
-}
-
-.image {
-  object-fit: cover;
-  transition: transform 0.7s ease;
-}
-
-@media (hover: hover) {
-  .card:hover .image {
-    transform: scale(1.05);
-  }
+  gap: 0.85rem;
 }
 
 .body {

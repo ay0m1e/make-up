@@ -9,6 +9,15 @@ import { formatBookingDate, formatBookingTime } from "../../../lib/booking-forma
 import { formatPence } from "../../../lib/money";
 import styles from "../flow.module.css";
 
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const NAME_LETTER_PATTERN = /[\p{L}]/u;
+
+type FieldErrors = {
+  fullName?: string;
+  email?: string;
+  phone?: string;
+};
+
 export default function BookPaymentPage() {
   const router = useRouter();
   const [serviceName, setServiceName] = useState("");
@@ -19,11 +28,12 @@ export default function BookPaymentPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [notes, setNotes] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
 
   useEffect(() => {
     const draft = getBookingDraft();
     if (!draft.service) {
-      router.replace("/book/service");
+      router.replace("/services");
       return;
     }
     if (!draft.booking_date) {
@@ -48,11 +58,39 @@ export default function BookPaymentPage() {
   function handleContinue(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    const normalizedName = fullName.trim();
+    const normalizedEmail = email.trim();
+    const normalizedPhone = phone.trim();
+    const normalizedNotes = notes.trim();
+    const nextErrors: FieldErrors = {};
+
+    if (!normalizedName) {
+      nextErrors.fullName = "Please enter your name.";
+    } else if (!NAME_LETTER_PATTERN.test(normalizedName)) {
+      nextErrors.fullName = "Please enter your name using letters.";
+    }
+
+    if (!normalizedEmail) {
+      nextErrors.email = "Please enter your email.";
+    } else if (!EMAIL_PATTERN.test(normalizedEmail)) {
+      nextErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!normalizedPhone) {
+      nextErrors.phone = "Please enter your phone number.";
+    }
+
+    setFieldErrors(nextErrors);
+
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
     updateBookingDraft({
-      customer_name: fullName.trim(),
-      customer_email: email.trim(),
-      customer_phone: phone.trim(),
-      notes: notes.trim(),
+      customer_name: normalizedName,
+      customer_email: normalizedEmail,
+      customer_phone: normalizedPhone,
+      notes: normalizedNotes,
     });
 
     router.push("/book/summary");
@@ -78,12 +116,25 @@ export default function BookPaymentPage() {
                 </label>
                 <input
                   id="customer-name"
-                  className={styles.input}
+                  className={`${styles.input} ${
+                    fieldErrors.fullName ? styles.inputError : ""
+                  }`}
                   value={fullName}
-                  onChange={(event) => setFullName(event.target.value)}
+                  onChange={(event) => {
+                    setFullName(event.target.value);
+                    setFieldErrors((current) => ({ ...current, fullName: undefined }));
+                  }}
                   placeholder="Your full name"
-                  required
+                  aria-invalid={Boolean(fieldErrors.fullName)}
+                  aria-describedby={
+                    fieldErrors.fullName ? "customer-name-error" : undefined
+                  }
                 />
+                {fieldErrors.fullName ? (
+                  <p id="customer-name-error" className={styles.fieldError}>
+                    {fieldErrors.fullName}
+                  </p>
+                ) : null}
               </div>
 
               <div className={styles.field}>
@@ -93,12 +144,25 @@ export default function BookPaymentPage() {
                 <input
                   id="customer-email"
                   type="email"
-                  className={styles.input}
+                  className={`${styles.input} ${
+                    fieldErrors.email ? styles.inputError : ""
+                  }`}
                   value={email}
-                  onChange={(event) => setEmail(event.target.value)}
+                  onChange={(event) => {
+                    setEmail(event.target.value);
+                    setFieldErrors((current) => ({ ...current, email: undefined }));
+                  }}
                   placeholder="you@example.com"
-                  required
+                  aria-invalid={Boolean(fieldErrors.email)}
+                  aria-describedby={
+                    fieldErrors.email ? "customer-email-error" : undefined
+                  }
                 />
+                {fieldErrors.email ? (
+                  <p id="customer-email-error" className={styles.fieldError}>
+                    {fieldErrors.email}
+                  </p>
+                ) : null}
               </div>
 
               <div className={styles.field}>
@@ -107,12 +171,25 @@ export default function BookPaymentPage() {
                 </label>
                 <input
                   id="customer-phone"
-                  className={styles.input}
+                  className={`${styles.input} ${
+                    fieldErrors.phone ? styles.inputError : ""
+                  }`}
                   value={phone}
-                  onChange={(event) => setPhone(event.target.value)}
+                  onChange={(event) => {
+                    setPhone(event.target.value);
+                    setFieldErrors((current) => ({ ...current, phone: undefined }));
+                  }}
                   placeholder="+44 7000 000000"
-                  required
+                  aria-invalid={Boolean(fieldErrors.phone)}
+                  aria-describedby={
+                    fieldErrors.phone ? "customer-phone-error" : undefined
+                  }
                 />
+                {fieldErrors.phone ? (
+                  <p id="customer-phone-error" className={styles.fieldError}>
+                    {fieldErrors.phone}
+                  </p>
+                ) : null}
               </div>
 
               <div className={styles.field}>

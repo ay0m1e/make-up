@@ -139,23 +139,31 @@ export function ServicesClient() {
     }
   }
 
-  async function handleDeactivate(serviceId: string) {
-    setActionId(serviceId);
+  async function handleToggleActive(service: Service) {
+    setActionId(service.id);
     setError(null);
 
     try {
-      await deactivateAdminService(serviceId);
+      const updated = service.is_active
+        ? await deactivateAdminService(service.id)
+        : await updateAdminService(service.id, { is_active: true });
+
       setServices((current) =>
-        current.map((service) =>
-          service.id === serviceId ? { ...service, is_active: false } : service,
-        ),
+        current.map((entry) => (entry.id === service.id ? updated : entry)),
       );
-      if (editingId === serviceId) {
-        resetForm();
+
+      if (editingId === service.id) {
+        setForm((current) => ({
+          ...current,
+          is_active: updated.is_active,
+        }));
       }
     } catch (actionError) {
       const rawMessage = actionError instanceof Error ? actionError.message : "";
-      const message = getErrorMessage(actionError, "Unable to deactivate service.");
+      const message = getErrorMessage(
+        actionError,
+        service.is_active ? "Unable to deactivate service." : "Unable to reactivate service.",
+      );
       if (rawMessage.includes("401")) {
         router.replace("/admin/login");
         return;
@@ -173,7 +181,7 @@ export function ServicesClient() {
           <p className={styles.eyebrow}>Services</p>
           <h2>{heading}</h2>
           <p className={styles.subtext}>
-            Create new services, update active service details, or deactivate them when needed.
+            Create new services, update service details, and toggle published status when needed.
           </p>
         </div>
 
@@ -323,11 +331,15 @@ export function ServicesClient() {
                 </button>
                 <button
                   type="button"
-                  className={styles.secondaryButton}
-                  onClick={() => handleDeactivate(service.id)}
-                  disabled={actionId === service.id || !service.is_active}
+                  className={service.is_active ? styles.secondaryButton : styles.primaryButton}
+                  onClick={() => handleToggleActive(service)}
+                  disabled={actionId === service.id}
                 >
-                  {actionId === service.id ? "Saving..." : "Deactivate"}
+                  {actionId === service.id
+                    ? "Saving..."
+                    : service.is_active
+                      ? "Deactivate"
+                      : "Reactivate"}
                 </button>
               </div>
             </article>

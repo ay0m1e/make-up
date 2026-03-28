@@ -99,7 +99,7 @@ export function MobileMenu({ isAdminAuthenticated = false }: Props) {
             </Link>
           ) : null}
           <Link
-            href="/book/service"
+            href="/services"
             className={styles.menuCta}
             onClick={() => setMenuOpen(false)}
           >

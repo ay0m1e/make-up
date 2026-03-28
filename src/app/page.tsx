@@ -190,7 +190,7 @@ export default function HomePage() {
               highlight your natural features.
             </p>
             <Link
-              href="/book/service"
+              href="/services"
               className={styles.heroCta}
             >
               Book an Appointment
@@ -331,7 +331,7 @@ export default function HomePage() {
             tailored to your features and the occasion.
           </p>
           <Link
-            href="/book/service"
+            href="/services"
             className={styles.ctaButton}
           >
             Book an Appointment

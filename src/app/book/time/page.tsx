@@ -25,7 +25,7 @@ export default function BookTimePage() {
   useEffect(() => {
     const draft = getBookingDraft();
     if (!draft.service) {
-      router.replace("/book/service");
+      router.replace("/services");
       return;
     }
     if (!draft.booking_date) {

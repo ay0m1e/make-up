@@ -7,6 +7,7 @@ from uuid import UUID
 import sqlalchemy as sa
 from flask import jsonify
 from flask_jwt_extended import JWTManager
+from sqlalchemy.orm import Session
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from backend_app.extensions import db
@@ -145,10 +146,18 @@ def register_jwt_callbacks(jwt_manager: JWTManager) -> None:
         except (TypeError, ValueError):
             return None
 
-        admin = db.session.get(Admin, admin_id)
-        if admin is None or not admin.is_active:
-            return None
-        return admin
+        # Use an isolated session here so JWT auth does not open an implicit
+        # transaction on the request-scoped db.session before route handlers run.
+        with Session(db.engine) as session:
+            admin = session.get(Admin, admin_id)
+            if admin is None or not admin.is_active:
+                return None
+
+            return {
+                "id": str(admin.id),
+                "email": admin.email,
+                "full_name": admin.full_name,
+            }
 
     @jwt_manager.user_lookup_error_loader
     def handle_missing_admin(_jwt_header: dict[str, Any], _jwt_payload: dict[str, Any]):

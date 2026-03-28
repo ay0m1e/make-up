@@ -5,10 +5,11 @@ from datetime import date as dt_date
 from datetime import time as dt_time
 from typing import Any
 
-from flask import Blueprint, current_app, jsonify, request
+from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required
 
 from backend_app.services import BookingService
+from backend_app.services.email_service import build_bank_transfer_details
 from backend_app.services.error_handlers import ApiError
 
 
@@ -48,7 +49,7 @@ def create_booking():
         notes=_optional_text(payload.get("notes")),
     )
 
-    bank_transfer = _get_bank_transfer_details(booking_data["reference_code"])
+    bank_transfer = build_bank_transfer_details(booking_data["reference_code"])
 
     response = {
         "booking_id": booking_data["id"],
@@ -229,45 +230,6 @@ def _parse_time(value: Any, *, field_name: str) -> dt_time:
             details={"field": field_name},
         )
     return parsed
-
-
-def _get_bank_transfer_details(booking_reference_code: str) -> dict[str, str]:
-    account_name = current_app.config.get("BANK_ACCOUNT_NAME")
-    sort_code = current_app.config.get("BANK_SORT_CODE")
-    account_number = current_app.config.get("BANK_ACCOUNT_NUMBER")
-    reference_prefix = current_app.config.get("BANK_REFERENCE_PREFIX")
-
-    missing = [
-        key
-        for key, value in (
-            ("BANK_ACCOUNT_NAME", account_name),
-            ("BANK_SORT_CODE", sort_code),
-            ("BANK_ACCOUNT_NUMBER", account_number),
-            ("BANK_REFERENCE_PREFIX", reference_prefix),
-        )
-        if not value
-    ]
-    if missing:
-        raise ApiError(
-            message="Bank transfer settings are not configured.",
-            status_code=500,
-            code="bank_transfer_config_missing",
-            details={"missing": missing},
-        )
-
-    instructions = (
-        "Transfer the deposit to the bank account above and use a payment reference "
-        f"starting with {reference_prefix}. Include booking code {booking_reference_code}."
-    )
-
-    return {
-        "account_name": str(account_name),
-        "sort_code": str(sort_code),
-        "account_number": str(account_number),
-        "instructions": instructions,
-    }
-
-
 def _json_response(*, data: Any, status: int = 200, meta: dict[str, Any] | None = None):
     payload: dict[str, Any] = {"data": data}
     if meta is not None:

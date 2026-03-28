@@ -4,10 +4,11 @@ from __future__ import annotations
 import click
 import sqlalchemy as sa
 from flask import Flask
+from smtplib import SMTPAuthenticationError, SMTPException
 
 from backend_app.extensions import db
 from backend_app.models import Service
-from backend_app.services import AdminAuthService
+from backend_app.services import AdminAuthService, EmailService
 from backend_app.services.error_handlers import ApiError
 
 
@@ -105,3 +106,36 @@ def register_cli_commands(app: Flask) -> None:
             extra={"created": created, "updated": updated, "count": len(SAMPLE_SERVICES)},
         )
         print(f"Seed complete. Created: {created}, Updated: {updated}.")
+
+    @app.cli.command("test-email")
+    @click.option("--to", "to_email", required=True, help="Recipient email address.")
+    def test_email_command(to_email: str) -> None:
+        """Send a development-safe SMTP test email."""
+        try:
+            EmailService().send_test_email(to_email)
+        except SMTPAuthenticationError as error:
+            app.logger.exception(
+                "test_email_auth_failed",
+                extra={"to_email": to_email},
+            )
+            raise click.ClickException(
+                "SMTP authentication failed. Check SMTP_USERNAME and SMTP_PASSWORD."
+            ) from error
+        except SMTPException as error:
+            app.logger.exception(
+                "test_email_smtp_failed",
+                extra={"to_email": to_email},
+            )
+            raise click.ClickException(f"SMTP delivery failed: {error}") from error
+        except Exception as error:
+            app.logger.exception(
+                "test_email_failed",
+                extra={"to_email": to_email},
+            )
+            raise click.ClickException(f"Email test failed: {error}") from error
+
+        app.logger.info(
+            "test_email_sent",
+            extra={"to_email": to_email},
+        )
+        click.echo(f"Test email sent to {to_email}.")

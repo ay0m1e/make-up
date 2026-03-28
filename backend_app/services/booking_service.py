@@ -10,6 +10,7 @@ from sqlalchemy.exc import IntegrityError
 
 from backend_app.extensions import db
 from backend_app.models import Booking, Service
+from backend_app.services.email_service import EmailService
 from backend_app.services.error_handlers import ApiError
 
 
@@ -23,6 +24,7 @@ class BookingService:
 
     def __init__(self, session=None) -> None:
         self.session = session or db.session
+        self.email_service = EmailService()
 
     def create_booking(
         self,
@@ -46,6 +48,7 @@ class BookingService:
         service_uuid = self._parse_uuid(service_id, field_name="service_id")
 
         try:
+            booking_data: dict[str, Any]
             with self.session.begin():
                 service = self._get_active_service(service_uuid)
                 total_amount_pence, deposit_amount_pence = self._calculate_amounts(service, quantity)
@@ -86,13 +89,16 @@ class BookingService:
                 self.session.flush()
                 self.session.refresh(booking)
 
-                return self._serialize_booking(booking)
+                booking_data = self._serialize_booking(booking)
         except IntegrityError as error:
             raise ApiError(
                 message="Unable to create booking due to a database conflict.",
                 status_code=409,
                 code="booking_conflict",
             ) from error
+
+        self.email_service.send_booking_received(booking_data)
+        return booking_data
 
     def list_bookings(
         self,
@@ -166,6 +172,7 @@ class BookingService:
     def confirm_deposit(self, booking_id: str | UUID) -> dict[str, Any]:
         booking_uuid = self._parse_uuid(booking_id, field_name="booking_id")
 
+        booking_data: dict[str, Any]
         with self.session.begin():
             booking = self._get_booking_for_update(booking_uuid)
 
@@ -195,7 +202,10 @@ class BookingService:
 
             self.session.flush()
             self.session.refresh(booking)
-            return self._serialize_booking(booking)
+            booking_data = self._serialize_booking(booking)
+
+        self.email_service.send_deposit_confirmed(booking_data)
+        return booking_data
 
     def cancel_booking(self, booking_id: str | UUID) -> dict[str, Any]:
         booking_uuid = self._parse_uuid(booking_id, field_name="booking_id")

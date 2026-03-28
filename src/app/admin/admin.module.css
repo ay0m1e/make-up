@@ -327,7 +327,7 @@
 
   .nav {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(8.75rem, 1fr));
   }
 
   .navLink {
@@ -346,6 +346,118 @@
   }
 }
 
+.calendarControls {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.calendarRange {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: #fcfaf7;
+  color: var(--color-ink);
+  padding: 0.85rem 1.1rem;
+  font-size: 0.96rem;
+  text-align: center;
+}
+
+.calendarGrid {
+  display: grid;
+  gap: 1rem;
+}
+
+.calendarDay {
+  display: grid;
+  gap: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 1.35rem;
+  background: var(--color-white);
+  padding: 1rem;
+}
+
+.calendarDayToday {
+  border-color: var(--color-accent-border);
+  background: #fff9f3;
+}
+
+.calendarDayHeader {
+  display: grid;
+  gap: 0.35rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(231, 229, 228, 0.85);
+}
+
+.calendarDayLabel {
+  margin: 0;
+  color: var(--color-ink);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.calendarDayMeta {
+  margin: 0;
+  color: var(--color-ink-soft);
+  font-size: 0.92rem;
+}
+
+.calendarEventList {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.calendarEvent {
+  display: grid;
+  gap: 0.6rem;
+  border: 1px solid rgba(231, 229, 228, 0.9);
+  border-radius: 1rem;
+  background: #fcfaf7;
+  padding: 0.9rem;
+}
+
+.calendarEventTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.calendarEventTime {
+  color: #6b625c;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.calendarEventName,
+.calendarEventMeta,
+.calendarEmpty {
+  margin: 0;
+}
+
+.calendarEventName {
+  color: var(--color-ink);
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.calendarEventMeta,
+.calendarEmpty {
+  color: var(--color-ink-soft);
+  line-height: 1.6;
+}
+
+.calendarEventStatuses {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
 @media (min-width: 640px) {
   .metaGrid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -362,6 +474,17 @@
   }
 }
 
+@media (max-width: 767px) {
+  .calendarControls {
+    display: grid;
+  }
+
+  .calendarControls > *,
+  .calendarControls > button {
+    width: 100%;
+  }
+}
+
 @media (min-width: 980px) {
   .metaGrid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -371,6 +494,16 @@
 @media (min-width: 1024px) {
   .page {
     padding-inline: 3rem;
+  }
+
+  .calendarGrid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: start;
+  }
+
+  .calendarDay {
+    min-height: 17rem;
+    align-content: start;
   }
 
   .servicesLayout {

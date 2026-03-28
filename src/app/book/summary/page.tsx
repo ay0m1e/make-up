@@ -4,7 +4,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createBooking } from "../../../core/api/bookings";
+import { PublicBookingError, createBooking } from "../../../core/api/bookings";
 import { getBookingDraft, saveBookingConfirmation } from "../../../core/booking/store";
 import type { BookingDraft } from "../../../core/types";
 import { formatBookingDate, formatBookingTime } from "../../../lib/booking-format";
@@ -16,11 +16,13 @@ export default function BookSummaryPage() {
   const [draft, setDraft] = useState<BookingDraft | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorTitle, setErrorTitle] = useState<string | null>(null);
+  const [suggestTimeRetry, setSuggestTimeRetry] = useState(false);
 
   useEffect(() => {
     const currentDraft = getBookingDraft();
     if (!currentDraft.service) {
-      router.replace("/book/service");
+      router.replace("/services");
       return;
     }
     if (!currentDraft.booking_date) {
@@ -49,6 +51,8 @@ export default function BookSummaryPage() {
   async function handleSubmit() {
     setSubmitting(true);
     setError(null);
+    setErrorTitle(null);
+    setSuggestTimeRetry(false);
 
     try {
       const confirmation = await createBooking({
@@ -65,7 +69,14 @@ export default function BookSummaryPage() {
       saveBookingConfirmation(confirmation);
       router.push("/book/confirm");
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "Unable to create booking.");
+      if (submitError instanceof PublicBookingError) {
+        setErrorTitle(submitError.title);
+        setError(submitError.message);
+        setSuggestTimeRetry(submitError.status === 409);
+      } else {
+        setErrorTitle("We could not complete your booking");
+        setError("Please try again in a moment. If the issue continues, contact the studio directly.");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -139,7 +150,13 @@ export default function BookSummaryPage() {
 
             {error ? (
               <div className={styles.errorBox}>
+                {errorTitle ? <p className={styles.errorTitle}>{errorTitle}</p> : null}
                 <p>{error}</p>
+                {suggestTimeRetry ? (
+                  <Link href="/book/time" className={styles.inlineLink}>
+                    Choose another time
+                  </Link>
+                ) : null}
               </div>
             ) : null}
 

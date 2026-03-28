@@ -11,6 +11,10 @@ export async function getServices(): Promise<Service[]> {
     cache: "no-store",
   });
 
-  const payload = await parseJsonResponse<ServiceListResponse>(response);
-  return payload.data;
+  try {
+    const payload = await parseJsonResponse<ServiceListResponse>(response);
+    return payload.data;
+  } catch {
+    throw new Error("Unable to load services right now. Please refresh and try again.");
+  }
 }
