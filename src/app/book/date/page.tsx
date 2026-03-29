@@ -62,15 +62,17 @@ export default function BookDatePage() {
               <label htmlFor="booking-date" className={styles.label}>
                 Booking date
               </label>
-              <input
-                id="booking-date"
-                type="date"
-                value={bookingDate}
-                min={minDate}
-                onChange={(event) => setBookingDate(event.target.value)}
-                className={styles.input}
-                required
-              />
+              <div className={styles.dateInputWrap}>
+                <input
+                  id="booking-date"
+                  type="date"
+                  value={bookingDate}
+                  min={minDate}
+                  onChange={(event) => setBookingDate(event.target.value)}
+                  className={styles.dateInput}
+                  required
+                />
+              </div>
             </div>
 
             <div className={styles.actions}>
