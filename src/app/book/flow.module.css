@@ -270,6 +270,7 @@
 .summaryValue {
   color: var(--color-ink);
   text-align: right;
+  overflow-wrap: anywhere;
 }
 
 .totals {
@@ -465,6 +466,11 @@
     gap: 1.1rem;
   }
 
+  .summaryList,
+  .totals {
+    gap: 1rem;
+  }
+
   .card {
     padding: 1.2rem;
     border-radius: 1.3rem;
@@ -506,11 +512,22 @@
   }
 
   .summaryRow {
+    flex-direction: column;
     align-items: flex-start;
+    gap: 0.35rem;
+  }
+
+  .summaryKey {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
   }
 
   .summaryValue {
-    max-width: 62%;
+    width: 100%;
+    max-width: none;
+    text-align: left;
+    line-height: 1.55;
   }
 
   .helperText {
