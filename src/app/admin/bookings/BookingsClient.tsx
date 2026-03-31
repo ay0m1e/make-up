@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   cancelAdminBooking,
@@ -38,28 +38,74 @@ function getStatusClass(status: string) {
   }
 }
 
+const STATUS_FILTERS = [
+  { value: "all", label: "All bookings" },
+  { value: "pending", label: "Pending" },
+  { value: "confirmed", label: "Confirmed" },
+  { value: "cancelled", label: "Cancelled" },
+] as const;
+
+type BookingStatusFilter = (typeof STATUS_FILTERS)[number]["value"];
+
+function getBookingTimestamp(booking: AdminBooking) {
+  return new Date(`${booking.booking_date}T${booking.start_time}`).getTime();
+}
+
+function sortBookings(bookings: AdminBooking[]) {
+  const now = Date.now();
+
+  return bookings.slice().sort((left, right) => {
+    const leftTime = getBookingTimestamp(left);
+    const rightTime = getBookingTimestamp(right);
+    const leftUpcoming = left.booking_status !== "cancelled" && leftTime >= now;
+    const rightUpcoming = right.booking_status !== "cancelled" && rightTime >= now;
+
+    if (leftUpcoming !== rightUpcoming) {
+      return leftUpcoming ? -1 : 1;
+    }
+
+    if (leftUpcoming && rightUpcoming) {
+      return leftTime - rightTime;
+    }
+
+    if (left.booking_status === "cancelled" && right.booking_status !== "cancelled") {
+      return 1;
+    }
+    if (left.booking_status !== "cancelled" && right.booking_status === "cancelled") {
+      return -1;
+    }
+
+    return rightTime - leftTime;
+  });
+}
+
+function matchesFilter(booking: AdminBooking, statusFilter: BookingStatusFilter) {
+  return statusFilter === "all" || booking.booking_status === statusFilter;
+}
+
 export function BookingsClient() {
   const router = useRouter();
   const [bookings, setBookings] = useState<AdminBooking[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [actionKey, setActionKey] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<BookingStatusFilter>("all");
 
-  useEffect(() => {
-    let active = true;
-
-    async function loadBookings() {
+  const loadBookings = useCallback(
+    async (activeStatusFilter: BookingStatusFilter, active: { current: boolean }) => {
       setLoading(true);
       setError(null);
 
       try {
-        const response = await getAdminBookings();
-        if (!active) {
+        const response = await getAdminBookings({
+          status: activeStatusFilter === "all" ? undefined : activeStatusFilter,
+        });
+        if (!active.current) {
           return;
         }
-        setBookings(response);
+        setBookings(sortBookings(response));
       } catch (loadError) {
-        if (!active) {
+        if (!active.current) {
           return;
         }
 
@@ -71,18 +117,35 @@ export function BookingsClient() {
         }
         setError(message);
       } finally {
-        if (active) {
+        if (active.current) {
           setLoading(false);
         }
       }
-    }
+    },
+    [router],
+  );
 
-    loadBookings();
+  useEffect(() => {
+    const active = { current: true };
+
+    loadBookings(statusFilter, active);
 
     return () => {
-      active = false;
+      active.current = false;
     };
-  }, [router]);
+  }, [loadBookings, statusFilter]);
+
+  const bookingCountLabel = useMemo(() => {
+    if (loading) {
+      return "Loading bookings...";
+    }
+
+    if (statusFilter === "all") {
+      return `${bookings.length} booking(s)`;
+    }
+
+    return `${bookings.length} ${statusFilter} booking(s)`;
+  }, [bookings.length, loading, statusFilter]);
 
   async function handleConfirmDeposit(bookingId: string) {
     setActionKey(`confirm:${bookingId}`);
@@ -90,9 +153,12 @@ export function BookingsClient() {
 
     try {
       const updated = await confirmAdminBookingDeposit(bookingId);
-      setBookings((current) =>
-        current.map((booking) => (booking.id === bookingId ? updated : booking)),
-      );
+      setBookings((current) => {
+        const next = current
+          .map((booking) => (booking.id === bookingId ? updated : booking))
+          .filter((booking) => matchesFilter(booking, statusFilter));
+        return sortBookings(next);
+      });
     } catch (actionError) {
       const rawMessage = actionError instanceof Error ? actionError.message : "";
       const message = getErrorMessage(actionError, "Unable to confirm deposit.");
@@ -112,9 +178,12 @@ export function BookingsClient() {
 
     try {
       const updated = await cancelAdminBooking(bookingId);
-      setBookings((current) =>
-        current.map((booking) => (booking.id === bookingId ? updated : booking)),
-      );
+      setBookings((current) => {
+        const next = current
+          .map((booking) => (booking.id === bookingId ? updated : booking))
+          .filter((booking) => matchesFilter(booking, statusFilter));
+        return sortBookings(next);
+      });
     } catch (actionError) {
       const rawMessage = actionError instanceof Error ? actionError.message : "";
       const message = getErrorMessage(actionError, "Unable to cancel booking.");
@@ -133,9 +202,23 @@ export function BookingsClient() {
       <div className={styles.toolbar}>
         <div>
           <p className={styles.eyebrow}>Bookings</p>
-          <p className={styles.count}>
-            {loading ? "Loading bookings..." : `${bookings.length} booking(s)`}
-          </p>
+          <p className={styles.count}>{bookingCountLabel}</p>
+        </div>
+        <div className={styles.filterGroup} aria-label="Booking status filters">
+          {STATUS_FILTERS.map((filter) => {
+            const isActive = filter.value === statusFilter;
+            return (
+              <button
+                key={filter.value}
+                type="button"
+                aria-pressed={isActive}
+                className={`${styles.filterButton} ${isActive ? styles.filterButtonActive : ""}`}
+                onClick={() => setStatusFilter(filter.value)}
+              >
+                {filter.label}
+              </button>
+            );
+          })}
         </div>
       </div>
 

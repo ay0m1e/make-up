@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   createAdminService,
@@ -9,6 +9,11 @@ import {
   updateAdminService,
 } from "../../../core/api/admin";
 import type { AdminServicePayload, Service } from "../../../core/types";
+import {
+  getServiceCategoryHeading,
+  normalizeServiceCategory,
+  SERVICE_CATEGORY_ORDER,
+} from "../../../lib/service-categories";
 import { formatPence } from "../../../lib/money";
 import styles from "../admin.module.css";
 
@@ -17,7 +22,7 @@ const EMPTY_FORM: AdminServicePayload = {
   description: "",
   price_pence: 0,
   duration_minutes: 60,
-  category: "",
+  category: SERVICE_CATEGORY_ORDER[0],
   is_active: true,
 };
 
@@ -39,6 +44,8 @@ export function ServicesClient() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [actionId, setActionId] = useState<string | null>(null);
+  const formCardRef = useRef<HTMLDivElement | null>(null);
+  const nameInputRef = useRef<HTMLInputElement | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -95,10 +102,22 @@ export function ServicesClient() {
       description: service.description ?? "",
       price_pence: service.price_pence,
       duration_minutes: service.duration_minutes,
-      category: service.category ?? "",
+      category:
+        normalizeServiceCategory(service.category) ?? getServiceCategoryHeading(service),
       is_active: service.is_active,
     });
     setError(null);
+
+    requestAnimationFrame(() => {
+      formCardRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      window.setTimeout(() => {
+        nameInputRef.current?.focus();
+      }, 280);
+    });
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -111,7 +130,7 @@ export function ServicesClient() {
       description: form.description?.trim() || null,
       price_pence: Number(form.price_pence),
       duration_minutes: Number(form.duration_minutes),
-      category: form.category?.trim() || null,
+      category: normalizeServiceCategory(form.category) ?? SERVICE_CATEGORY_ORDER[0],
       is_active: form.is_active ?? true,
     };
 
@@ -176,7 +195,7 @@ export function ServicesClient() {
 
   return (
     <div className={styles.servicesLayout}>
-      <div className={styles.card}>
+      <div ref={formCardRef} className={`${styles.card} ${styles.scrollTarget}`}>
         <div className={styles.header}>
           <p className={styles.eyebrow}>Services</p>
           <h2>{heading}</h2>
@@ -193,6 +212,7 @@ export function ServicesClient() {
               </label>
               <input
                 id="service-name"
+                ref={nameInputRef}
                 className={styles.input}
                 value={form.name}
                 onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
@@ -204,12 +224,19 @@ export function ServicesClient() {
               <label htmlFor="service-category" className={styles.label}>
                 Category
               </label>
-              <input
+              <select
                 id="service-category"
                 className={styles.input}
                 value={form.category ?? ""}
                 onChange={(event) => setForm((current) => ({ ...current, category: event.target.value }))}
-              />
+                required
+              >
+                {SERVICE_CATEGORY_ORDER.map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className={styles.field}>
