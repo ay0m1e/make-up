@@ -82,6 +82,7 @@
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 100%;
+  max-width: 22rem;
 }
 
 
@@ -121,8 +122,7 @@
 .carouselStage {
   position: relative;
   min-height: 420px;
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
+  width: 100%;
 }
 
 .carouselCard {
@@ -178,11 +178,14 @@
 }
 
 .reviewActions {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 0.75rem 1rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   align-items: center;
-  margin-top: 0.75rem;
 }
 
 .reviewLink {
@@ -206,6 +209,7 @@
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 100%;
+  max-width: 22rem;
   text-align: center;
 }
 
@@ -249,6 +253,7 @@
   text-decoration: none;
   transition: background-color 0.2s ease, color 0.2s ease;
   width: 100%;
+  max-width: 22rem;
   text-align: center;
 }
 
@@ -292,12 +297,6 @@
     align-items: center;
     gap: 0.75rem;
   }
-
-  .carouselStage {
-    width: 100%;
-    margin-left: 0;
-  }
-
 }
 
 @media (max-width: 768px) {
@@ -345,6 +344,10 @@
 
   .trustSection {
     padding: 0 3rem var(--space-section);
+  }
+
+  .reviewActions {
+    padding: 0.75rem 3rem 0;
   }
 
   .ctaInner {
